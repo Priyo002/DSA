@@ -1,6 +1,24 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+int calculate(int curr, int req) {
+	int m1 = curr % 3;
+	int m2 = req % 3;
+	if (m1 == m2) return 0;
+	if (m2 > m1) return m2 - m1;
+	return m2 + (3 - m1);
+}
+
+int cal(vector<int> a) {
+	int ans = 0;
+	for (int i = 3; i < a.size(); i++) {
+		int operations = calculate(a[i], a[i - 3]);
+		ans += operations;
+		a[i] = a[i - 3];
+	}
+	return ans;
+}
+
 int main() {
 
 #ifndef ONLINE_JUDGE
@@ -13,34 +31,29 @@ int main() {
 	while (t--) {
 		int n;
 		cin >> n;
-		vector<long long> arr(n), v(n);
+		vector<long long> a(n);
 		for (int i = 0; i < n; i++) {
-			cin >> arr[i];
+			cin >> a[i];
 		}
-		long long ans = 0;
-		long long cnt = 0;
-		v = arr;
-		for (int i = 1; i < 3; i++) {
-			v[i] += v[i - 1];
-		}
-		while (v[2] % 3 != 0) {
-			v[2]++;
-			cnt++;
-		}
-		arr[2] += cnt;
-		ans += cnt;
-		if (n > 3) {
-			for (int i = 3; i < n; i++) {
-				v[i] += v[i - 1] - arr[i - 3];
-				cnt = 0;
-				while (v[i] % 3 != 0) {
-					v[i]++;
-					cnt++;
+		vector<vector<int>> X;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				for (int k = 0; k < 3; k++) {
+					if ((i + j + k) % 3 == 0)
+						X.push_back({i, j, k});
 				}
-				arr[i] += cnt;
-				ans += cnt;
 			}
 		}
+		int ans = INT_MAX;
+
+		for (auto vec : X) {
+			vector<int> temp = vec;
+			for (auto x : a) {
+				temp.push_back(x);
+			}
+			ans = min(ans, cal(temp));
+		}
+
 		cout << ans << endl;
 
 	}
