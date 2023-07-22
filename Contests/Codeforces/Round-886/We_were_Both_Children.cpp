@@ -1,15 +1,22 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int helper(vector<int> &v, int n) {
-	int cnt = 0;
-	for (int i = 0; i < v.size(); i++) {
-		if (v[i] <= n) {
-			if (n % v[i] == 0) cnt++;
-		}
-		else break;
+void solve() {
+	int n;
+	cin >> n;
+	map<int, int>Hash;
+	for (int i = 0; i < n; i++) {
+		int x;
+		cin >> x;
+		Hash[x]++;
 	}
-	return cnt;
+	std::vector<int> a(n + 1, 0);
+	for (auto [u, v] : Hash) {
+		for (int i = u; i <= n; i += u) {
+			a[i] += v;
+		}
+	}
+	cout << *max_element(a.begin(), a.end()) << endl;
 }
 
 int main() {
@@ -19,34 +26,10 @@ int main() {
 	freopen("outputf.in", "w", stdout);
 #endif
 
-	int t;
-	cin >> t;
-	while (t--) {
-		int n;
-		cin >> n;
-		vector<int> arr;
-		for (int i = 0; i < n; i++) {
-			int temp;
-			cin >> temp;
-			if (temp <= n) {
-				arr.push_back(temp);
-			}
-		}
-		if (arr.size() == 0) {
-			cout << 0 << endl;
-			continue;
-		}
-		sort(arr.begin(), arr.end());
-		// for (auto it : arr) {
-		// 	cout << it << " ";
-		// }
-		// cout << endl;
-		int maxi = INT_MIN;
-		for (int i = arr[0]; i <= n; i++) {
-			int l = helper(arr, i);
-			maxi = max(maxi, l);
-		}
-		cout << maxi << endl;
+	int T;
+	cin >> T;
+	while (T--) {
+		solve();
 	}
-
+	return 0;
 }
