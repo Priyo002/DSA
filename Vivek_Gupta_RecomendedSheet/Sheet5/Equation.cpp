@@ -1,15 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-double help(double x, double lo, double hi) {
-	double ans = 0;
-	for (double i = lo; i <= hi; i += 2) {
-		ans += pow(x, i);
-	}
-	ans = (long long)ans;
-	return ans;
-}
-
 int main() {
 
 #ifndef ONLINE_JUDGE
@@ -17,15 +8,18 @@ int main() {
 	freopen("outputf.in", "w", stdout);
 #endif
 
-	double x, n;
+	int x, n;
 	cin >> x >> n;
-	if (x == 0) {
+	if (x == 0 || n == 0 || n == 1) {
 		cout << 0;
 		return 0;
 	}
-	if (n == 0 || n == 1) {
-		cout << 0;
-		return 0;
+	long long sum = 0;
+	long long p = 1;
+	for (int i = 2; i <= n; i += 2) {
+		sum += (p * x * x);
+		p = sum;
 	}
-	cout << help(x, 2, n);
+	cout << sum;
+
 }
