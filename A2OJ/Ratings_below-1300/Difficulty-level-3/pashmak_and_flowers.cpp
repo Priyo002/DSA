@@ -1,14 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-long long fact(long long n) {
-	int prod = 1;
-	for (int i = 2; i <= n; i++) {
-		prod *= i;
-	}
-	return prod;
-}
-
 int main() {
 
 #ifndef ONLINE_JUDGE
