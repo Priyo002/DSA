@@ -8,10 +8,11 @@ int main() {
 	freopen("outputf.in", "w", stdout);
 #endif
 
-	long long n;
+	double n;
 	cin >> n;
-	long long k = __builtin_popcount(n);
-	if (k == 1) {
+	double k = log2(n);
+
+	if (ceil(k) == floor(k)) {
 		cout << "YES";
 	}
 	else cout << "NO";

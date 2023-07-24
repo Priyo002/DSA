@@ -1,6 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+long long help(long long a, long long b, long long q) {
+	if (q == 1) {
+		return a;
+	}
+	else if (q == 2) return b;
+	return help(a, b, q - 1)^help(a, b, q - 2);
+}
+
 int main() {
 
 #ifndef ONLINE_JUDGE
@@ -10,25 +18,8 @@ int main() {
 
 	long long a, b, q;
 	cin >> a >> b >> q;
-	queue<long long> st;
-	if (q == 1) {
-		cout << a;
-		return 0;
-	}
-	if (q == 2) {
-		cout << b;
-		return 0;
-	}
-	st.push(b);
-	st.push(a ^ b);
-	long long k = q - 3;
-	while (k--) {
-		long long t = st.front();
-		st.pop();
-		long long l = st.front();
-		st.push(t ^ l);
-	}
-	cout << st.back();
+	long long ans = help(a, b, q);
+	cout << ans;
 
 
 }
