@@ -1,50 +1,26 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
 using namespace std;
 
-int main() {
-
-#ifndef ONLINE_JUDGE
-	freopen("inputf.in", "r", stdin);
-	freopen("outputf.in", "w", stdout);
-#endif
-
-	int t;
-	cin >> t;
-	while (t--) {
-		int n, k;
+const int maxn = 300005;
+int T, n, k, a[maxn];
+pair<int, int>p[maxn];
+int main()
+{
+	cin >> T;
+	while (T--)
+	{
 		cin >> n >> k;
-		vector<int> v(n), ans;
-		int maxi = INT_MIN;
-		int idx = -1;
-		for (int i = 0; i < n; i++) {
-			cin >> v[i];
-			if (maxi < v[i]) {
-				maxi = v[i];
-				idx = i;
-			}
+		for (int i = 1; i <= n; i++)
+		{
+			cin >> a[i];
+			p[i] = make_pair(-((a[i] - 1) % k + 1), i);
 		}
-		v[idx] -= k;
-		if (v[idx] <= 0) {
-			ans.push_back(idx + 1);
+		sort(p + 1, p + n + 1);
+		for (int i = 1; i <= n; i++)
+		{
+			cout << p[i].second << " ";
 		}
-		while (true) {
-			maxi = INT_MIN;
-			for (int i = 0; i < n; i++) {
-				if (maxi < v[i]) {
-					maxi = v[i];
-					idx = i;
-				}
-			}
-			if (maxi <= 0) {
-				break;
-			}
-			v[idx] -= k;
-			if (v[idx] <= 0) {
-				ans.push_back(idx + 1);
-			}
-		}
-		for (auto i : ans) cout << i << " ";
 		cout << endl;
 	}
-
 }
