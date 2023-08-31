@@ -24,15 +24,12 @@ void init() {
 void solve() {
 	int n;
 	cin >> n;
-	vector<int> arr(n + 1);
-	for (int i = 1; i <= n; i++) cin >> arr[i];
+	vector<int> arr(n), b(n + 1, 0);
 	int cnt = 0;
-	for (int i = 1; i <= n; i++) {
-		if (arr[i] != i) {
-			swap(arr[i], arr[arr[i]]);
-			cnt++;
-		}
-
+	for (int i = 0; i < n; i++) {
+		cin >> arr[i];
+		b[arr[i]] = 1;
+		if (arr[i] != 1 && b[arr[i] - 1] == 0) cnt++;
 	}
 	cout << cnt << endl;
 }
