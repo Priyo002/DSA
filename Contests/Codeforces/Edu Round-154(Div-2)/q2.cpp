@@ -28,95 +28,15 @@ void solve() {
 		cout << "YES" << endl;
 		return;
 	}
-	int n = s1.size();
-	string t1 = s1, t2 = s2;
-	for (int i = 0; i < n; i++) {
-		if (t1[i] == '1') {
-			for (int j = i + 1; j < n; j++) {
-				t1[j] = '1';
-			}
-			break;
+	for (int i = 0; i < s1.size() - 1; i++) {
+		if (s1[i] == '0' && s1[i + 1] == '1' && s2[i] == '0' && s2[i + 1] == '1') {
+			cout << "YES" << endl;
+			return;
 		}
-	}
-
-	for (int i = 0; i < n; i++) {
-		if (t2[i] == '1') {
-			for (int j = i + 1; j < n; j++) {
-				t2[j] = '1';
-			}
-			break;
-		}
-	}
-	if (t1 == t2) {
-		cout << "YES" << endl;
-		return;
-	}
-	t1 = s1; t2 = s2;
-	for (int i = n - 2; i >= 0; i--) {
-		if (t1[i] == '0') {
-			for (int j = i - 1; j >= 0; j--) {
-				t1[j] = '0';
-			}
-			break;
-		}
-	}
-	for (int i = n - 2; i >= 0; i--) {
-		if (t2[i] == '0') {
-			for (int j = i - 1; j >= 0; j--) {
-				t2[j] = '0';
-			}
-			break;
-		}
-	}
-	if (t1 == t2) {
-		cout << "YES" << endl;
-		return;
-	}
-	t1 = s1, t2, s2;
-	for (int i = 0; i < n; i++) {
-		if (t1[i] == '1') {
-			for (int j = i + 1; j < n; j++) {
-				t1[j] = '1';
-			}
-			break;
-		}
-	}
-	for (int i = n - 2; i >= 0; i--) {
-		if (t2[i] == '0') {
-			for (int j = i - 1; j >= 0; j--) {
-				t2[j] = '0';
-			}
-			break;
-		}
-	}
-	if (t1 == t2) {
-		cout << "YES" << endl;
-		return;
-	}
-	t1 = s1, t2 = s2;
-	for (int i = n - 2; i >= 0; i--) {
-		if (t1[i] == '0') {
-			for (int j = i - 1; j >= 0; j--) {
-				t1[j] = '0';
-			}
-			break;
-		}
-	}
-	for (int i = 0; i < n; i++) {
-		if (t2[i] == '1') {
-			for (int j = i + 1; j < n; j++) {
-				t2[j] = '1';
-			}
-			break;
-		}
-	}
-	if (t1 == t2) {
-		cout << "YES" << endl;
-		return;
 	}
 	cout << "NO" << endl;
-}
 
+}
 int32_t main() {
 
 	init();

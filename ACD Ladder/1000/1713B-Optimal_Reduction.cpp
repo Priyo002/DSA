@@ -22,18 +22,31 @@ void init() {
 }
 
 void solve() {
-	string s;
-	cin >> s;
-	vector<int> v;
-	v.pb(0);
-	for (int i = 0; i < s.size(); i++) {
-		if (s[i] == '1') {
-			if (v.size() < 2) {
-
+	int n;
+	cin >> n;
+	vector<int> a(n);
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	int flag = 0;
+	int inc = 0, dec = 0;
+	for (int i = 1; i < n; i++) {
+		if (a[i] >= a[i - 1]) {
+			if (dec == 0) {
+				inc = 1;
+			}
+			else {
+				flag = 1;
+				break;
 			}
 		}
-
+		else if (a[i] < a[i - 1]) {
+			dec = 1;
+		}
 	}
+	if (flag) cout << "NO";
+	else cout << "YES";
+	cout << endl;
 }
 
 int32_t main() {

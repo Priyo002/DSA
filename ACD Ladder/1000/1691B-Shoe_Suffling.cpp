@@ -22,18 +22,36 @@ void init() {
 }
 
 void solve() {
-	string s;
-	cin >> s;
-	vector<int> v;
-	v.pb(0);
-	for (int i = 0; i < s.size(); i++) {
-		if (s[i] == '1') {
-			if (v.size() < 2) {
-
-			}
-		}
-
+	int n;
+	cin >> n;
+	unordered_map<int, int> mp;
+	vector<int> a(n);
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+		mp[a[i]]++;
 	}
+	for (auto x : mp) {
+		if (x.second == 1) {
+			cout << -1 << endl;
+			return;
+		}
+	}
+	vector<int> ans(n);
+	int idx = -1;
+	for (int i = 0; i < n - 1; i++) {
+		if (a[i] == a[i + 1]) {
+			if (idx == -1) idx = i;
+			ans[i] = i + 1;
+		}
+		else {
+			ans[i] = idx;
+			idx = -1;
+		}
+	}
+	ans[n - 1] = idx;
+	for (auto x : ans) cout << x + 1 << " ";
+	cout << endl;
+
 }
 
 int32_t main() {
