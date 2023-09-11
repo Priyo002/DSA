@@ -22,19 +22,30 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
-	cout << (int)sqrtl(n - 1) << endl;
-	return;
+	int n, m, a;
+	cin >> n >> m;
+	multiset<int> mt;
+	for (int i = 0; i < n; i++) {
+		cin >> a;
+		mt.insert(a);
+	}
+	for (int i = 0; i < m; i++) {
+		cin >> a;
+		auto it = mt.upper_bound(a);
+		if (it == mt.begin()) {
+			cout << -1 << endl;
+		}
+		else {
+			cout << *(--it) << endl;
+			mt.erase(it);
+		}
+	}
 }
 
 int32_t main() {
 
 	init();
 
-	int t;
-	cin >> t;
-	while (t--)
-		solve();
+	solve();
 
 }

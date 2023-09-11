@@ -22,10 +22,19 @@ void init() {
 }
 
 void solve() {
-	int n;
+	int n, a;
 	cin >> n;
-	cout << (int)sqrtl(n - 1) << endl;
-	return;
+	priority_queue<int> q;
+	int ans = 0;
+	for (int i = 0; i < n; i++) {
+		cin >> a;
+		if (a == 0 && !q.empty()) {
+			ans += q.top();
+			q.pop();
+		}
+		else q.push(a);
+	}
+	cout << ans << endl;
 }
 
 int32_t main() {
