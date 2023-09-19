@@ -25,14 +25,16 @@ void solve() {
 	int n, m;
 	cin >> n >> m;
 	vector<int> a(n), b(m);
+	int orr = 0;
 	for (int i = 0; i < n; i++) cin >> a[i];
-	for (int i = 0; i < m; i++) cin >> b[i];
-
+	for (int i = 0; i < m; i++) {
+		cin >> b[i];
+		orr |= b[i];
+	}
 	int xorr1 = 0;
 	for (auto x : a) {
 		xorr1 ^= x;
 	}
-	int orr = *max_element(b.begin(), b.end());
 	for (int i = 0; i < n; i++) {
 		a[i] |= orr;
 	}
@@ -40,8 +42,8 @@ void solve() {
 	for (auto x : a) {
 		xorr2 ^= x;
 	}
-	if (n & 1) cout << min(xorr1, xorr2) << " " << max(xorr2, xorr1) << endl;
-	else cout << 0 << " " << max(xorr1, xorr2) << endl;
+	if (n % 2 == 0) cout << xorr2 << " " << xorr1 << endl;
+	else cout << xorr1 << " " << xorr2 << endl;
 }
 
 int32_t main() {
