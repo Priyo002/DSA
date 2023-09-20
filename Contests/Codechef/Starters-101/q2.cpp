@@ -21,24 +21,25 @@ void init() {
 #endif
 }
 
-int ops(string& str, string& k) {
-	string res = "";
-	int n = k.size();
-	int j = str.size() - 1;
-	while (n--) {
-		res.push_back(str[j]);
+pair<int, int> ops(char ch, char k) {
+	vector<int> arr = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+	int idx1 = ch - '0';
+	int idx2 = k - '0';
+	int a = 0;
+	int i = idx1;
+	while (arr[i] != idx2) {
+		i++;
+		if (i == 10) i = 0;
+		a++;
+	}
+	int b = 0;
+	int j = idx1;
+	while (arr[j] != idx2) {
 		j--;
+		if (j == -1) j = 9;
+		b++;
 	}
-	reverse(res.begin(), res.end());
-	if (res == k) return 0;
-	int sum = 0;
-	for (int i = 0; i < res.size(); i++) {
-		int t1 = (res[i] - '0') + ('9' - k[i]);
-		int t2 = INT_MAX;
-		if (k[i] >= res[i]) t2 = k[i] - res[i];
-		sum += min(sum, min(t1, t2));
-	}
-	return sum;
+	return {a, b};
 }
 
 void solve() {
@@ -46,14 +47,14 @@ void solve() {
 	cin >> n >> m;
 	string s, k;
 	cin >> s >> k;
-	string str = "";
 	int ans = INT_MAX;
-	for (int i = 0; i < n; i++) {
-		str.push_back(s[i]);
-		if (str.size() >= m) {
-			//cout << str << endl;
-			ans = min(ans, ops(str, k));
+	for (int i = 0; i + m <= n; i++) {
+		int x = 0;
+		for (int j = 0; j < m; j++) {
+			pair<int, int> p = ops(s[j + i], k[j]);
+			x += min(p.first, p.second);
 		}
+		ans = min(ans, x);
 	}
 	cout << ans << endl;
 }
