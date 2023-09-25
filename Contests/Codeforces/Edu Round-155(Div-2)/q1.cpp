@@ -34,26 +34,12 @@ void solve() {
 		if (s[i] >= s[0] && e[i] >= e[0]) {
 			flag = true;
 		}
-		mps[s[i]] = i;
 	}
 	if (flag) {
 		cout << -1 << endl;
 		return;
 	}
-	for (int i = s[0] - 1; i >= 1; i--) {
-		if (mps.find(i) == mps.end()) {
-			cout << i << endl;
-			return;
-		}
-		else {
-			int idx = mps[i];
-			if (e[idx] < e[0]) {
-				cout << i << endl;
-				return;
-			}
-		}
-	}
-	cout << -1 << endl;
+	cout << s[0] << endl;
 }
 
 int32_t main() {
