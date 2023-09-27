@@ -32,40 +32,18 @@ void solve() {
 		int t1 = arr[i - 2] - '0';
 		int t2 = arr[i - 1] - '0';
 		int t3 = arr[i] - '0';
-		//cout << t1 << " " << t2 << " " << t3 << endl;
-		if (t1 == t2) {
-			if (t1 == 1 && t3 == 0) {
-				v.pb(1);
-			}
-			else if (t1 == 0 && t3 == 0) {
-				v.pb(3);
-			}
-			else if (t1 == 0 && t3 == 1) {
-				flag = true;
-			}
-		}
-		else {
-			if (t1 == 1 && t2 == 0 && t3 == 1) {
-				v.pb(2);
-			}
-			else if (t1 == 1 && t2 == 0 && t3 == 0) {
-				v.pb(1);
-			}
-			else if (t1 == 0 && t2 == 1 && t3 == 0) {
-				v.pb(1);
-			}
-			else if (t1 == 0 && t2 == 1 && t3 == 1) {
-				v.pb(2);
-			}
-		}
+		int x = 0;
+		if ((t1 & t2 ) == t3) x++;
+		if ((t1 | t2) == t3) x++;
+		if ((t1 ^ t2) == t3) x++;
+		v.pb(x);
 	}
-	if (v.size() && flag == false) {
-		int sum = 0;
-		for (auto x : v)
-			sum = ((sum % mod ) + (x % mod)) % mod;
-		cout << sum << endl;
-	}
-	else cout << 0 << endl;
+
+	int sum = 1;
+	for (auto x : v)
+		sum = ((sum % mod ) * (x % mod)) % mod;
+	cout << sum % mod << endl;
+
 
 }
 
