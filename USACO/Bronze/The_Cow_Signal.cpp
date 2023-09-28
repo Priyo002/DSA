@@ -61,6 +61,7 @@ int32_t main() {
 
 	freopen("cowsignal.in", "r", stdin);
 	freopen("cowsignal.out", "w", stdout);
+
 	solve();
 
 	// time_req = clock() - time_req;
