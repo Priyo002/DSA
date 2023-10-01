@@ -22,35 +22,19 @@ void init() {
 }
 
 void solve() {
-	int n, m, k;
-	cin >> n >> m >> k;
-	vector<int> a(n), b(m);
-	int sum1 = 0, sum2 = 0;
-	for (int i = 0; i < n; i++) {
-		cin >> a[i];
-		sum1 += a[i];
+	int n;
+	cin >> n;
+	string str = "";
+	while (n > 0 && n % 7 != 0) {
+		n -= 4;
+		str += "4";
 	}
-	for (int i = 0; i < m; i++) {
-		cin >> b[i];
-		sum2 += b[i];
+	while (n > 0 && n % 7 == 0) {
+		n -= 7;
+		str += "7";
 	}
-	sort(a), sort(b);
-
-	if (k & 1) {
-
-		if (a[0] < b[m - 1]) {
-			sum1 -= a[0];
-			sum1 += b[m - 1];
-		}
-
-	}
-	else {
-		if (b[0] < a[n - 1]) {
-			sum1 -= a[n - 1];
-			sum1 += b[0];
-		}
-	}
-	cout << sum1 << endl;
+	if (n == 0) cout << str;
+	else cout << -1;
 }
 
 int32_t main() {
@@ -59,10 +43,7 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t;
-	cin >> t;
-	while (t--)
-		solve();
+	solve();
 
 	//time_req = clock() - time_req;
 	//cout << endl << "Time Taken is ";

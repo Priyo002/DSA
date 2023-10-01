@@ -22,35 +22,25 @@ void init() {
 }
 
 void solve() {
-	int n, m, k;
-	cin >> n >> m >> k;
-	vector<int> a(n), b(m);
-	int sum1 = 0, sum2 = 0;
+	int n;
+	cin >> n;
+	string s;
+	cin >> s;
+	int cnt1 = 0;
+	int cnt2 = 0;
 	for (int i = 0; i < n; i++) {
-		cin >> a[i];
-		sum1 += a[i];
-	}
-	for (int i = 0; i < m; i++) {
-		cin >> b[i];
-		sum2 += b[i];
-	}
-	sort(a), sort(b);
-
-	if (k & 1) {
-
-		if (a[0] < b[m - 1]) {
-			sum1 -= a[0];
-			sum1 += b[m - 1];
+		if (cnt1 == 0 && s[i] == '1') {
+			cnt1 = n - i;
 		}
-
+		if (s[i] == '1') cnt2 = i + 1;
+	}
+	if (cnt2 == 0) {
+		cout << n << endl;
 	}
 	else {
-		if (b[0] < a[n - 1]) {
-			sum1 -= a[n - 1];
-			sum1 += b[0];
-		}
+		int k = max(cnt1, cnt2);
+		cout << 2 * k << endl;
 	}
-	cout << sum1 << endl;
 }
 
 int32_t main() {
