@@ -25,32 +25,54 @@ void solve() {
 	int n, m, k;
 	cin >> n >> m >> k;
 	vector<int> a(n), b(m);
-	int sum1 = 0, sum2 = 0;
+
+	vector<multiset<int>> st(2);
+
+	int mn = INT_MAX;
+	int mx = INT_MIN;
+
 	for (int i = 0; i < n; i++) {
 		cin >> a[i];
-		sum1 += a[i];
+		st[0].insert(a[i]);
+		mn = min(mn, a[i]);
+		mx = max(mx, a[i]);
 	}
 	for (int i = 0; i < m; i++) {
 		cin >> b[i];
-		sum2 += b[i];
+		st[1].insert(b[i]);
+		mn = min(mn, b[i]);
+		mx = max(mx, b[i]);
 	}
-	sort(a), sort(b);
 
-	if (k & 1) {
+	auto erase = [&] (int idx, int val) {
+		st[idx].erase(st[idx].find(val));
+	};
 
-		if (a[0] < b[m - 1]) {
-			sum1 -= a[0];
-			sum1 += b[m - 1];
+	int turn = 0;
+	while (k > 0) {
+		int small = *st[turn].begin();
+		int big = *st[turn ^ 1].rbegin();
+
+		if (small == mn && big == mx) {
+			k &= 1; //k = k%2;
+			if (k == 0) break;
 		}
-
-	}
-	else {
-		if (b[0] < a[n - 1]) {
-			sum1 -= a[n - 1];
-			sum1 += b[0];
+		if (small < big) {
+			erase(turn, small);
+			erase(turn ^ 1, big);
+			st[turn].insert(big);
+			st[turn ^ 1].insert(small);
 		}
+		k--;
+		turn ^= 1;
 	}
-	cout << sum1 << endl;
+
+	int ans = 0;
+	for (auto &x : st[0]) {
+		ans += x;
+	}
+	cout << ans << endl;
+
 }
 
 int32_t main() {
