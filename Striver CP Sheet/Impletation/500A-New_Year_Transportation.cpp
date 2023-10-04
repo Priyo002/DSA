@@ -22,32 +22,37 @@ void init() {
 }
 
 void solve() {
-
-	int n;
-	cin >> n;
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++) {
+	int n, t;
+	cin >> n >> t;
+	vector<int> arr(n - 1);
+	for (int i = 0; i < n - 1; i++) {
 		cin >> arr[i];
 	}
-	sort(arr);
-	int ans = 1;
-	for (int i = 0; i < n; i++) {
-		if (ans < arr[i]) break;
-		ans += arr[i];
+	t--;
+	int k = 0;
+	for (int i = 0; i < n;) {
+		if (k + arr[i] == t) {
+			cout << "YES";
+			return;
+		}
+		k += arr[i];
+		i = k;
+		if (i >= n - 1 || i > t) break;
 	}
-	cout << ans;
+	cout << "NO";
 }
 
 int32_t main() {
 
 	init();
-	// clock_t time_req;
-	// time_req = clock();
+	//clock_t time_req;
+	//time_req = clock();
+
 
 	solve();
 
-	// time_req = clock() - time_req;
-	// cout << endl << "Time Taken is ";
-	// cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
+	//time_req = clock() - time_req;
+	//cout << endl << "Time Taken is ";
+	//cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
 
 }

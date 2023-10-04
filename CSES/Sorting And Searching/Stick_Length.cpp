@@ -22,18 +22,16 @@ void init() {
 }
 
 void solve() {
-
 	int n;
 	cin >> n;
 	vector<int> arr(n);
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i];
-	}
+	for (int i = 0; i < n; i++) cin >> arr[i];
 	sort(arr);
-	int ans = 1;
-	for (int i = 0; i < n; i++) {
-		if (ans < arr[i]) break;
-		ans += arr[i];
+
+	int ans = 0;
+	int mid = arr[n / 2];
+	for (auto x : arr) {
+		ans += abs(x - mid);
 	}
 	cout << ans;
 }
@@ -41,13 +39,14 @@ void solve() {
 int32_t main() {
 
 	init();
-	// clock_t time_req;
-	// time_req = clock();
+	//clock_t time_req;
+	//time_req = clock();
+
 
 	solve();
 
-	// time_req = clock() - time_req;
-	// cout << endl << "Time Taken is ";
-	// cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
+	//time_req = clock() - time_req;
+	//cout << endl << "Time Taken is ";
+	//cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
 
 }
