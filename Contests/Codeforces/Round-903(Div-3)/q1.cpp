@@ -26,47 +26,15 @@ void solve() {
 	cin >> n >> m;
 	string x, s;
 	cin >> x >> s;
-	bool flag = false;
-	for (int i = 0; i < n; i++) {
-		if (x[i] == s[0]) {
-			flag = true;
-			string temp = "";
-			int cnt = 0;
-			for (int j = i; j < n && cnt < m; j++) {
-				temp += x[j];
-				cnt++;
-			}
-			if (temp == s) {
-				cout << 0 << endl;
-				return;
-			}
+	int ans = -1;
+	for (int i = 0; i <= 10; i++) {
+		if (x.find(s) != string::npos) {
+			ans = i;
+			break;
 		}
-	}
-	if (flag == false) {
-		cout << -1 << endl;
-		return;
-	}
-	int ans = 0;
-	while (x.size() <= 1000 ) {
-		ans++;
 		x += x;
-		//cout << x << " ";
-		for (int i = 0; i < x.size(); i++) {
-			if (x[i] == s[0]) {
-				string temp = "";
-				int cnt = 0;
-				for (int j = i; j < x.size() && cnt < m; j++) {
-					cnt++;
-					temp += x[j];
-				}
-				if (temp == s) {
-					cout << ans << endl;
-					return;
-				}
-			}
-		}
 	}
-	cout << -1 << endl;
+	cout << ans << endl;
 }
 
 int32_t main() {
