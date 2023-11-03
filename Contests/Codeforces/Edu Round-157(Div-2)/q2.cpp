@@ -21,7 +21,28 @@ void init() {
 #endif
 }
 
-
+void solve() {
+	int n;
+	cin >> n;
+	vector<int> arr(2 * n);
+	for (int i = 0; i < 2 * n; i++) {
+		cin >> arr[i];
+	}
+	sort(arr);
+	vector<int> x(n), y(n);
+	for (int i = 0; i < n; i++) {
+		x[i] = arr[i];
+		y[i] = arr[n + i];
+	}
+	int ans = 0;
+	for (int i = 1; i < n; i++) {
+		ans += (abs(x[i] - x[i - 1]) + abs(y[i] - y[i - 1]));
+	}
+	cout << ans << endl;
+	for (int i = 0; i < n; i++) {
+		cout << x[i] << " " << y[i] << endl;
+	}
+}
 
 int32_t main() {
 
@@ -29,27 +50,11 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int n;
-	cin >> n;
-	vector<int> arr(n);
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i];
-	}
-	int ans = 0;
-	set<int> st;
-	int i = 0, j = 0;
-	while (i < n && j < n) {
-		while (j < n && !(st.count(arr[j]))) {
-			st.insert(arr[j]);
-			ans = max(ans, j - i + 1);
-			j++;
-		}
-		while (j < n && st.count(arr[j])) {
-			st.erase(arr[i]);
-			i++;
-		}
-	}
-	cout << ans;
+	int t;
+	cin >> t;
+	while (t--)
+		solve();
+
 	//time_req = clock() - time_req;
 	//cout << endl << "Time Taken is ";
 	//cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
