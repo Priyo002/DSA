@@ -24,17 +24,33 @@ void init() {
 void solve() {
 	int n;
 	cin >> n;
-	string s;
-	cin >> s;
-	int a = 0, b = 0;
-	for (auto x : s) {
-		if (x == 'A') a++;
-		else b++;
+	vector<int> arr(n);
+	int mn = INT_MAX, mx = INT_MIN;
+	int ans = INT_MIN;
+	for (auto&x : arr) {
+		cin >> x;
+		mx = max(mx, x);
+		mn = min(mn, x);
 	}
-	cout << a <<  " " << b;
-	if (a > b) cout << "A";
-	else cout << "B";
-	cout << endl;
+	ans = max(ans, abs(mx - mn));
+	for (int i = 1; i < n; i++) arr[i] += arr[i - 1];
+
+	for (int k = 2; k <= n; k++) {
+		if ((n % k == 0) && k != n) {
+			int j = k - 1;
+			int maxi = arr[j];
+			int mini = arr[j];
+			j += k;
+			while (j < n) {
+				int temp = arr[j] - arr[j - k];
+				maxi = max(maxi, temp);
+				mini = min(mini, temp);
+				j += k;
+			}
+			ans = max(ans, abs(maxi - mini));
+		}
+	}
+	cout << ans << endl;
 }
 
 int32_t main() {

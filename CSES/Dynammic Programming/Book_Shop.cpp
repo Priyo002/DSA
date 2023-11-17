@@ -22,6 +22,7 @@ void init() {
 }
 
 vector<int> price, pages;
+int n, x;
 //int dp[100005][1005];
 
 // int f(int sum, int i) {
@@ -35,18 +36,28 @@ vector<int> price, pages;
 // }
 
 int fbu(int sum) {
-	vector<vector<int>> dp(100005, vector<int> (1005, 0));
-
-	for (int j = 0; j <= sum; j++) {
-		int ans = INT_MIN;
-		for (int i = price.size() - 1; i >= 0; i--) {
-			if (sum - price[i] >= 0)
-				ans = max(ans, pages[i] + dp[j - price[i]][i + 1]);
-			ans = max(ans, dp[j][i + 1]);
-			dp[j][i] = ans;
+	vector<vector<int>> dp(n + 1, vector<int>(x + 1));
+	for (int i = 1; i <= n; i++) {
+		int curr_cost = price[i - 1];
+		int curr_pages = pages[i - 1];
+		for (int j = 1; j <= x; j++) {
+			/*
+			 * if the current book is not bought, the the number of pages is
+			 * the same as number of pages bought for first i-1 books using
+			 * j amount of money
+			 */
+			dp[i][j] = dp[i - 1][j];
+			if (curr_cost <= j) {
+				/*
+				 * if the current book can be bought, then store the most
+				 * number of pages using the remaining money after buying
+				 * the current book plus the pages for the current book.
+				 */
+				dp[i][j] = max(dp[i][j], dp[i - 1][j - curr_cost] + curr_pages);
+			}
 		}
 	}
-	return dp[sum][0];
+	return dp[n][x];
 }
 
 int32_t main() {
@@ -56,7 +67,7 @@ int32_t main() {
 	// time_req = clock();
 
 	//memset(dp, -1, sizeof(dp));
-	int n, x;
+
 	cin >> n >> x;
 	price.resize(n);
 	pages.resize(n);
