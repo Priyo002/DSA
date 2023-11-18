@@ -28,17 +28,23 @@ void solve() {
 	for (int i = 0; i < n; i++) {
 		cin >> arr[i];
 	}
-
-	int ans = 0;
-	map<int, int> mp;
-	for (auto e : arr) {
-		ans += mp[e];
-		mp[e]++;
-
-		if (e == 1) ans += mp[2];
-		if (e == 2) ans += mp[1];
+	int mini = INT_MAX;
+	int idx = -1;
+	for (int i = 0; i < n; i++) {
+		if (arr[i] < mini) {
+			mini = arr[i];
+			idx = i;
+		}
 	}
-	cout << ans  << endl;
+	bool flag = true;
+	for (int i = idx + 1; i < n; i++) {
+		if (arr[i - 1] > arr[i]) {
+			flag = false;
+			break;
+		}
+	}
+	if (flag == false) cout << -1 << endl;
+	else cout << idx << endl;
 }
 
 int32_t main() {
