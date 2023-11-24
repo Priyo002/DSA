@@ -21,21 +21,35 @@ void init() {
 #endif
 }
 
-void solve() {
-	int n;
-	cin >> n;
-	vector<int>arr(n);
-	int xorr = 0;
-	for (auto&x : arr) {
-		cin >> x;
-		xorr ^= x;
+int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, { -1, 0}};
+int f(int i, int j, int x, int y) {
+	if (i < 0 || j < 0 || i >= 7 || j >= 7) return 0;
+	//if (dp[i][j] != -1) return dp[i][j];
+	if (i == x && j == y) return 1;
+	int ans = 0;
+	for (int d = 0; d < 4; d++) {
+		int k1 = i + dir[d][0];
+		int k2 = j + dir[d][1];
+		ans += f(k1, k2, x, y);
 	}
-	int ans = xorr;
-	for (auto e : arr) {
-		ans = min(ans, (xorr ^ e));
-	}
-	cout << ans << endl;
+	return ans;
+}
 
+void solve() {
+	//memset(dp, -1, sizeof(dp));
+	// vector<vector<char>> arr(7,vector<char>(7));
+	// for(int i=0;i<7;i++){
+	// 	for(int j=0;j<7;j++){
+	// 		cin >> arr[i][j];
+	// 	}
+	// }
+	// int ans = 0;
+	// for(int i=0;i<7;i++){
+	// 	for(int j=0;j<7;j++){
+
+	// 	}
+	// }
+	cout << f(0, 0, 6, 6);
 
 }
 
@@ -45,10 +59,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t;
-	cin >> t;
-	while (t--)
-		solve();
+
+	solve();
 
 	//time_req = clock() - time_req;
 	//cout << endl << "Time Taken is ";
