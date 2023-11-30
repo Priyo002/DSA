@@ -25,30 +25,17 @@ void init() {
 void solve() {
 	int a, b;
 	cin >> a >> b;
-	if (a % b == 0) {
-		cout << 0 << endl;
-		return;
+	int x = 0;
+	while ((a + x) % (b - x) != 0) {
+		x++;
 	}
-	int x = a;
-	int y = b;
-	int cnt1 = 0, cnt2 = 0;
-	bool f1 = false, f2 = false;
-
-	while (x % y != 0 && y >= 1) {
-		x++, y--;
-		cnt1++;
+	int y = 0;
+	while ((a - y) % (b + y) != 0) {
+		y++;
 	}
-	if (x % y == 0) f1 = true;
-	x = a;
-	y = b;
-	while (x % y != 0 && x >= 1) {
-		x--, y++;
-		cnt2++;
-	}
-	if (x % y == 0) f2 = true;
-	if (f1 && f2) cout << min(cnt1, cnt2) << endl;
-	else if (f1) cout << cnt1 << endl;
-	else cout << cnt2 << endl;
+	if (y != a) cout << min(x, y);
+	else cout << x;
+	cout << endl;
 
 }
 

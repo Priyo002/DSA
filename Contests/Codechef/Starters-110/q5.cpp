@@ -36,7 +36,8 @@ void seive() {
 
 int f(int n, int k) {
 	if (n < 0) return INT_MAX;
-	if (n == 0 || isPrime[n]) return 1;
+	if (n == 0) return 0;
+	if (isPrime[n]) return 1;
 
 	return 1 + f(n - k, k * 2);
 }
