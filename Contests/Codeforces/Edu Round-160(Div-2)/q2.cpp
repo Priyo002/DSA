@@ -24,33 +24,21 @@ void init() {
 void solve() {
 	string s;
 	cin >> s;
-	int one = 0;
-	int zero = 0;
+	vector<int> cnt(2, 0);
 	for (auto ch : s) {
-		if (ch == '1') one++;
-		else zero++;
+		cnt[ch - '0']++;
 	}
-	if (!zero || !one) {
-		cout << s.size() << endl;
-		return;
-	}
-	if (zero == one) {
-		cout << 0 << endl;
-		return;
-	}
-	int idx = -1;
+
 	for (int i = 0; i < s.size(); i++) {
-		if (s[i] == '0') continue;
-		if (idx != -1) {
-			idx = i;
-			break;
+		int req = (s[i] - '0') ^ 1;
+		if (cnt[req] == 0) {
+			cout << s.size() - i << endl;
+			return;
 		}
-		zero--;
-		if (zero == 0) {
-			idx = i;
-		}
+		cnt[req]--;
 	}
-	cout << s.size() - idx << endl;
+	cout << 0 << endl;
+
 
 }
 
