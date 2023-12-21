@@ -22,22 +22,14 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
-	vector<int> arr(n);
-	for (int&x : arr) cin >> x;
+	int x, y;
+	cin >> x >> y;
 
-	sort(arr);
-	if (n == 4) {
-		if (arr[0] + arr[1] != arr[2] + arr[3]) cout << "YES";
-		else cout << "NO";
-	}
-	else {
-		if (arr[0] == arr[n - 1]) cout << "NO";
-		else cout << "YES";
-	}
+	int y1 = y + 1;
+	int mx = (x + y1 - 1) / y1;
 
-	cout << endl;
+	if (mx <= 2) cout << mx << endl;
+	else cout << max(mx, x - 2 * y) << endl;
 }
 
 int32_t main() {

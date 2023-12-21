@@ -21,59 +21,45 @@ void init() {
 #endif
 }
 
-#define pp pair<int,int>
+#define ss second
+#define ff first
 
 void solve() {
 	int n;
 	cin >> n;
-	priority_queue<pp, vector<pp>> a, b, c;
 
-	int x;
-	for (int i = 0; i < n; i++) {
-		cin >> x;
-		a.push({x, i});
-	}
-	for (int i = 0; i < n; i++) {
-		cin >> x;
-		b.push({x, i});
-	}
+	vector<int> a(n), b(n), c(n);
+	for (auto &e : a)     cin >> e;
+	for (auto &e : b)     cin >> e;
+	for (auto &e : c)     cin >> e;
 
-	for (int i = 0; i < n; i++) {
-		cin >> x;
-		c.push({x, i});
-	}
-	int ans = INT_MIN;
+	multiset<pair<int, int>> x, y;
 
-	while (a.size()) {
-		auto curr = a.top();
-		a.pop();
-		int sum = curr.first;
-		int idx1 = curr.second;
-
-		auto temp = b.top();
-		bool flag = false;
-		if (temp.second == curr.second) {
-			b.pop();
-			flag = true;
-		}
-		sum += b.top().first;
-		int idx2 = b.top().second;
-		if (flag) b.push(temp);
-
-		vector<pp> k;
-		while (c.size() && (c.top().second == idx1 || c.top().second == idx2)) {
-			k.push_back(c.top());
-			c.pop();
-		}
-		sum += c.top().first;
-		for (auto m : k) c.push(m);
-
-		ans = max(ans, sum);
-
+	for (int i = 0; i < n; i++)
+	{
+		x.insert({b[i], i});
+		y.insert({c[i], i});
 	}
 
-	cout << ans << endl;
+	int ans = 0;
 
+	for (int i = 0; i < n; i++)
+	{
+		x.erase({b[i], i});
+		y.erase({c[i], i});
+
+		if ((*x.rbegin()).ss == (*y.rbegin()).ss)
+			ans = max({ans, a[i] + (*(--x.end())).ff + (*(--(--y.end()))).ff,
+			           a[i] + (*(--y.end())).ff + (*(--(--x.end()))).ff
+			          });
+		else
+			ans = max(ans, a[i] + (*(--x.end())).ff + (*(--y.end())).ff);
+
+		x.insert({b[i], i});
+		y.insert({c[i], i});
+	}
+
+	cout << ans << "\n";
 }
 
 int32_t main() {
