@@ -35,7 +35,7 @@ void solve() {
 	}
 
 	cout << n - 1 << endl;
-	if (first & 1) {
+	if (first % 2) {
 		for (int i = odd.size() - 1; i >= 1; i--) {
 			cout << odd[i] << " " << odd[i - 1] << endl;
 		}
@@ -52,7 +52,6 @@ void solve() {
 		}
 	}
 }
-
 int32_t main() {
 
 	init();
