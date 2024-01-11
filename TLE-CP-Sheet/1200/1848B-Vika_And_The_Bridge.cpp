@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define ll long long
+#define int long long
 #define pb emplace_back
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
@@ -22,28 +22,33 @@ void init() {
 }
 
 void solve() {
-	ll n, b, c = 0, state = 0;
-	cin >> n;
-	vector < ll > v;
-	for (ll i = 0 ; i < n ; i++) {
-		cin >> b;
-		v.push_back(b);
+	int n, k;
+	cin >> n >> k;
+	vector<int> arr(n + 1), idx(n + 1, 0), gap(n + 1, 0);
+	for (int i = 1; i <= n; i++) cin >> arr[i];
+
+	unordered_map<int, int> last;
+	unordered_map<int, priority_queue<int>> mp;
+	unordered_set<int> st;
+	for (int i = 1; i <= n; i++) {
+		int ele = arr[i];
+		st.insert(ele);
+		int gap = i - last[ele] - 1;
+		mp[ele].push(gap);
+		last[ele] = i;
 	}
-	if (n == 1) {
-		cout << 1 << endl;
-		return;
+
+	int ans = INT_MAX;
+	for (auto x : st) {
+		mp[x].push(n - last[x]);
+		int top = mp[x].top();
+		mp[x].pop();
+		int s = mp[x].top();
+
+		ans = min(ans, max(top / 2, s));
 	}
-	for (ll i = 1 ; i < n ; i++) {
-		if ((v[i - 1] > v[i]) and state != 1) {
-			c++;
-			state = 1;
-		}
-		else if ((v[i - 1] < v[i]) and state != -1) {
-			c++;
-			state = -1;
-		}
-	}
-	cout << c + 1 << endl;
+	cout << ans << endl;
+
 
 
 }
