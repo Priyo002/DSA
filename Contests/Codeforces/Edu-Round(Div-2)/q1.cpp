@@ -19,55 +19,22 @@ void init() {
 	freopen("inputf.in", "r", stdin);
 	freopen("outputf.in", "w", stdout);
 #endif
-}\
-
-vector<vector<int>> arr;
-vector<string> goose;
-int n, m, k;
-
-int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, { -1, 0}};
-
-int f(int i, int j) {
-	if (i == n && j == m) {
-
-	}
-	int ans = INT_MAX;
-	for (int d = 0; d < 4; d++) {
-		int x = i + dir[d][0];
-		int y = j + dir[d][1];
-
-		if (x >= 0 && y >= 0 && x < n && y < m && grid[x][y] = ) {
-
-		}
-	}
-	if (i + 1 < n) {
-
-	}
-	if (j + 1 < m) {
-
-	}
-
 }
 
 void solve() {
+	int n;
+	cin >> n;
+	string a, b, c;
+	cin >> a >> b >> c;
 
-	cin >> n >> m;
-
-	arr.clear();
-	arr.resize(n, vector<int>(m));
 	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			cin >> arr[i][j];
+		if (c[i] == a[i] || c[i] == b[i]) continue;
+		else {
+			cout << "YES" << endl;
+			return;
 		}
 	}
-	goose.clear();
-	goose.resize(n);
-	for (int i = 0; i < n; i++) {
-		cin >> goose[i];
-	}
-
-	cout << 1 << endl;
-
+	cout << "NO" << endl;
 }
 
 int32_t main() {

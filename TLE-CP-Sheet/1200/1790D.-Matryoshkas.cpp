@@ -19,54 +19,28 @@ void init() {
 	freopen("inputf.in", "r", stdin);
 	freopen("outputf.in", "w", stdout);
 #endif
-}\
-
-vector<vector<int>> arr;
-vector<string> goose;
-int n, m, k;
-
-int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, { -1, 0}};
-
-int f(int i, int j) {
-	if (i == n && j == m) {
-
-	}
-	int ans = INT_MAX;
-	for (int d = 0; d < 4; d++) {
-		int x = i + dir[d][0];
-		int y = j + dir[d][1];
-
-		if (x >= 0 && y >= 0 && x < n && y < m && grid[x][y] = ) {
-
-		}
-	}
-	if (i + 1 < n) {
-
-	}
-	if (j + 1 < m) {
-
-	}
-
 }
 
 void solve() {
-
-	cin >> n >> m;
-
-	arr.clear();
-	arr.resize(n, vector<int>(m));
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			cin >> arr[i][j];
-		}
+	int n;
+	cin >> n;
+	vector<int> a(n);
+	map<int, int> cnt;
+	set<int> b;
+	for (int i = 0; i < n; ++i) {
+		cin >> a[i];
+		cnt[a[i]]++;
+		b.insert(a[i]);
+		b.insert(a[i] + 1);
 	}
-	goose.clear();
-	goose.resize(n);
-	for (int i = 0; i < n; i++) {
-		cin >> goose[i];
+	int last = 0;
+	int res = 0;
+	for (auto x : b) {
+		int c = cnt[x];
+		res += max(0ll, c - last);
+		last = c;
 	}
-
-	cout << 1 << endl;
+	cout << res << '\n';
 
 }
 
