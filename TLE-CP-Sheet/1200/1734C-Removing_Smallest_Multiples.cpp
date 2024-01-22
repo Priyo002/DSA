@@ -22,33 +22,34 @@ void init() {
 }
 
 void solve() {
-	int n, q;
-	cin >> n >> q;
+	int n;
+	cin >> n;
+	string s;
+	cin >> s;
 
-	vector<int> arr(n);
+	unordered_set<int> st, has;
+	vector<int> arr;
 	for (int i = 0; i < n; i++) {
-		cin >> arr[i];
+		if (s[i] == '1') continue;
+		has.insert(i + 1);
+		st.insert(i + 1);
+		arr.push_back(i + 1);
 	}
-	int mx = 0;
-	vector<int> temp(n);
-	for (int i = 0; i < n; i++) {
-		mx = max(mx, arr[i]);
-		temp[i] = mx;
-	}
-	for (int i = 1; i < n; i++) {
-		arr[i] += arr[i - 1];
-	}
+	int ans = 0;
 
-	vector<int> a;
-	for (int i = 0; i < q; i++) {
-		int x;
-		cin >> x;
-		int upper = upper_bound(temp.begin(), temp.end(), x) - temp.begin();
-		upper--;
-		if (upper < 0) cout << 0 << " ";
-		else cout << arr[upper] << " ";
+	for (auto x : arr) {
+		for (int i = x; i <= n; i += x) {
+			if (has.find(i) != has.end()) {
+				if (st.count(i)) {
+					st.erase(i);
+					ans += x;
+				}
+			}
+			else break;
+		}
 	}
-	cout << endl;
+	cout << ans << endl;
+
 }
 
 int32_t main() {

@@ -22,33 +22,33 @@ void init() {
 }
 
 void solve() {
-	int n, q;
-	cin >> n >> q;
-
+	int n;
+	cin >> n;
 	vector<int> arr(n);
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i];
-	}
-	int mx = 0;
-	vector<int> temp(n);
-	for (int i = 0; i < n; i++) {
-		mx = max(mx, arr[i]);
-		temp[i] = mx;
-	}
-	for (int i = 1; i < n; i++) {
-		arr[i] += arr[i - 1];
-	}
 
-	vector<int> a;
-	for (int i = 0; i < q; i++) {
-		int x;
-		cin >> x;
-		int upper = upper_bound(temp.begin(), temp.end(), x) - temp.begin();
-		upper--;
-		if (upper < 0) cout << 0 << " ";
-		else cout << arr[upper] << " ";
+	vector<int> a(n), b(n);
+	for (int i = 0; i < n; i++) cin >> a[i];
+	for (int i = 0; i < n; i++) cin >> b[i];
+
+	for (int i = 0; i < n; i++) {
+		arr[i] = b[i] - a[i];
 	}
-	cout << endl;
+	sort(arr);
+
+	int ans = 0;
+
+	int i = 0, j = n - 1;
+	while (i < j) {
+		int s = arr[i] + arr[j];
+		if (s >= 0) {
+			ans++;
+			i++;
+			j--;
+		}
+		else
+			i++;
+	}
+	cout << ans << endl;
 }
 
 int32_t main() {
