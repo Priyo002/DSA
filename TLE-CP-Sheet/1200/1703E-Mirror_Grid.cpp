@@ -24,28 +24,37 @@ void init() {
 void solve() {
 	int n;
 	cin >> n;
-	vector<int> arr(n);
-
-	vector<int> a(n), b(n);
-	for (int i = 0; i < n; i++) cin >> a[i];
-	for (int i = 0; i < n; i++) cin >> b[i];
-
-	for (int i = 0; i < n; i++) {
-		arr[i] = b[i] - a[i];
-	}
-	sort(arr);
-
-	int ans = 0;
-
-	int i = 0, j = n - 1;
-	while (i < j) {
-		int s = arr[i] + arr[j];
-		if (s >= 0) {
-			ans++;
-			i++;
-			j--;
+	int a[n][n];
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			char c;
+			cin >> c;
+			a[i][j] = c - '0';
 		}
-		else i++;
+	}
+	int ans = 0;
+	for (int i = 0; i < (n + 1) / 2; i++)
+	{
+		for (int j = 0; j < n / 2; j++)
+		{
+			int nowi = i, nowj = j;
+			int oldnowj = nowj;
+			int sum = a[nowi][nowj];
+			nowj = n - nowi - 1;
+			nowi = oldnowj;
+			sum += a[nowi][nowj];
+			oldnowj = nowj;
+			nowj = n - nowi - 1;
+			nowi = oldnowj;
+			sum += a[nowi][nowj];
+			oldnowj = nowj;
+			nowj = n - nowi - 1;
+			nowi = oldnowj;
+			sum += a[nowi][nowj];
+			ans += min(sum, 4 - sum);
+		}
 	}
 	cout << ans << endl;
 }
