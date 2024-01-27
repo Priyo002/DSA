@@ -1,0 +1,41 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define int long long int
+#define pb push_back
+#define setbits(x) __builtin_popcountll(x)
+#define zerobits(x) __builtin_ctzll(x)
+#define endl '\n'
+#define sort(X) sort(X.begin(),X.end())
+const int mod = 1e9 + 7;
+const int INF = 1e18;
+
+void init() {
+	ios::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
+#ifndef ONLINE_JUDGE
+	freopen("inputf.in", "r", stdin);
+	freopen("outputf.in", "w", stdout);
+#endif
+}
+
+vector<int> dp;
+
+int fibo(int n) {
+	if (n == 0 || n == 1) return n;
+	if (dp[n] != -1) return dp[n];
+	return dp[n] = fibo(n - 1) + fibo(n - 2);
+}
+
+int32_t main() {
+
+	init();
+	int n;
+	cin >> n;
+	dp.clear();
+	dp.resize(n + 1, -1);
+	cout << fibo(n);
+
+}
