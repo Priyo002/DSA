@@ -25,21 +25,27 @@ void solve() {
 	int a, b, r;
 	cin >> a >> b >> r;
 
-	int ans = 0;
-	int mn = INT_MAX;
-	if (r >= INT_MAX) {
-		cout << "n";
-		cout << endl;
-		return;
-	}
-	for (int i = 0; i <= r; i++) {
-		int k1 = a ^ i, k2 = b ^ i;
-		if (abs(k1 - k2) <= mn) {
-			ans = i;
-			mn = abs(k1 - k2);
+	int x = max(a, b), y = min(a, b);
+	bool flag = true;
+	int k = 0;
+
+	for (int i = 63; i >= 0; i--) {
+		int abit = ((x >> i) & 1);
+		int bbit = ((y >> i) & 1);
+
+		if (abit == 1 && bbit == 0) {
+			if (flag) {
+				flag = false;
+			}
+			else {
+				if ((k + (1ll << i)) <= r) {
+					k += (1ll << i);
+				}
+			}
 		}
 	}
-	cout << ans << " " << mn << endl;
+
+	cout << abs((x ^ k) - (y ^ k)) << endl;
 }
 
 int32_t main() {
