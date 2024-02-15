@@ -121,16 +121,16 @@ void solve() {
 int32_t main() {
 
 	init();
-	clock_t time_req;
-	time_req = clock();
+	// clock_t time_req;
+	// time_req = clock();
 
 	int t;
 	cin >> t;
 	while (t--)
 		solve();
 
-	time_req = clock() - time_req;
-	cout << endl << "Time Taken is ";
-	cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
+	// time_req = clock() - time_req;
+	// cout << endl << "Time Taken is ";
+	// cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
 
 }
