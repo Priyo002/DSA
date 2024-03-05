@@ -21,17 +21,18 @@ void init() {
 #endif
 }
 
+int isPrime[10011];
 int k = 0;
-int isPrime[1299800];
-
 void seive() {
-	if (k > 0) return;
-
+	//cout << "HI";
+	if (k > 0) return ;
 	k++;
-	int n = 1299800;
-	for (int i = 0; i < n; i++) isPrime[i] = 1;
+
+	int n = 10010;
+	for (int i = 0; i <= n; i++) isPrime[i] = 1;
 
 	isPrime[0] = isPrime[1] = 0;
+
 	for (int i = 2; i * i <= n; i++) {
 		if (isPrime[i]) {
 			for (int j = 2 * i; j <= n; j += i) {
@@ -41,26 +42,21 @@ void seive() {
 	}
 }
 
-void solve(int n) {
-	if (isPrime[n] || n == 1) cout << 0 << endl;
-	else {
-		int upper = -1, lower = -1;
-		for (int i = n; i <= 1299709; i++) {
-			if (isPrime[i]) {
-				upper = i;
-				break;
-			}
-		}
+void solve(int target) {
+	unordered_map<int, int> mp;
 
-		for (int i = n; i >= 0; i--) {
-			if (isPrime[i]) {
-				lower = i;
-				break;
-			}
-		}
+	mp[0] = 1;
+	int cnt = 0, prefSum = 0;
 
-		cout << upper - lower << endl;
+	for (int i = 2; i <= target; i++) {
+		if (isPrime[i] == 0) continue;
+		prefSum += i;
+		int rem = prefSum - target;
+
+		cnt += mp[rem];
+		mp[prefSum]++;
 	}
+	cout << cnt << endl;
 }
 
 int32_t main() {
@@ -68,13 +64,14 @@ int32_t main() {
 	init();
 	//clock_t time_req;
 	//time_req = clock();
-
 	seive();
-	int n;
+	int t;
+	cout << "YES";
+	return 0;
 	while (true) {
-		cin >> n;
-		if (n == 0) break;
-		solve(n);
+		cin >> t;
+		if (t == 0) break;
+		solve(t);
 	}
 
 	//time_req = clock() - time_req;
