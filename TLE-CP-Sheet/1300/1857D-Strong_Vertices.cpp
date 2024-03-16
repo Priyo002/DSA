@@ -22,38 +22,40 @@ void init() {
 }
 
 void solve() {
-	int n, l, ans = 0;
+	int n;
+	cin >> n;
 
-	cin >> n >> l;
-
-	vector<pair<int, int>> arr(n);
-
+	vector<int> arr(n), brr(n);
 	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
+		cin >> arr[i];
+	}
+	for (int i = 0; i < n; i++) {
+		cin >> brr[i];
 	}
 
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
+	vector<vector<int>> v(n, vector<int>(3));
+	for (int i = 0; i < n; i++) {
+		v[i][0] = arr[i];
+		v[i][1] = brr[i];
+		v[i][2] = i + 1;
+	}
+
+	sort(v.begin(), v.end(), [&](vector<int>&a, vector<int>&b) {
+		return (a[0] - b[0] ) > (a[1] - b[1]);
 	});
 
-	for (int i = 0; i < n; i++) {
+	vector<int> ans = {v[0][2]};
 
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
-			}
-
-			ans = max(ans, (int)pq.size());
+	for (int i = 1; i < n; i++) {
+		if (v[0][0] - v[i][0] == v[0][1] - v[i][1]) {
+			ans.push_back(v[i][2]);
 		}
 	}
-	cout << ans << endl;
+	sort(ans.begin(), ans.end());
+
+	cout << ans.size() << endl;
+	for (auto x : ans) cout << x << " ";
+	cout << endl;
 }
 
 int32_t main() {

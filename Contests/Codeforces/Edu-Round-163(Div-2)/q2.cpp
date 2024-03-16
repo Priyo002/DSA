@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -22,38 +22,51 @@ void init() {
 }
 
 void solve() {
-	int n, l, ans = 0;
+	int n;
+	cin >> n;
 
-	cin >> n >> l;
+	vector<int> arr(n);
 
-	vector<pair<int, int>> arr(n);
+	for (int i = 0; i < n; i++) cin >> arr[i];
 
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
-	}
+	int mx = -1;
 
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
+	for (auto x : arr) {
+		string s = to_string(x);
+		bool flag = false;
+		if ((int)s.size() > 1) {
+			int fi = s[0] - '0';
+			int se = s[1] - '0';
 
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
+			if (fi <= se) {
+				if (mx <= fi && mx <= se) {
+					mx = max(mx, se);
+					flag = true;
+				}
+				else if (mx <= x) {
+					mx = max(mx, x);
+					flag = true;
+				}
 			}
-
-			ans = max(ans, (int)pq.size());
+			else {
+				if (mx <= x) {
+					mx = max(mx, x);
+					flag = true;
+				}
+			}
+		}
+		else {
+			if (mx <= x) {
+				mx = max(mx, x);
+				flag = true;
+			}
+		}
+		if (!flag) {
+			cout << "NO" << endl;
+			return;
 		}
 	}
-	cout << ans << endl;
+	cout << "YES" << endl;
 }
 
 int32_t main() {

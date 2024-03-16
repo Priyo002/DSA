@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -22,37 +22,27 @@ void init() {
 }
 
 void solve() {
-	int n, l, ans = 0;
+	int n, x, y;
+	cin >> n >> x >> y;
 
-	cin >> n >> l;
+	vector<int> arr(n);
+	for (auto&i : arr) cin >> i;
 
-	vector<pair<int, int>> arr(n);
+	map<pair<int, int>, int> mp;
 
+	int ans = 0;
 	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
+		int rem = (arr[i] % x);
+		int k1 = ((x - rem) % x);
+
+		rem = (((arr[i] * -1) % y) + y) % y;
+		int k2 = ((y - rem) % y);
+
+		ans += mp[ {k1, k2}];
+
+		mp[ {(arr[i] % x), (arr[i] % y)}]++;
 	}
 
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
-
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
-			}
-
-			ans = max(ans, (int)pq.size());
-		}
-	}
 	cout << ans << endl;
 }
 

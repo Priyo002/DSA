@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -21,39 +21,53 @@ void init() {
 #endif
 }
 
-void solve() {
-	int n, l, ans = 0;
+#define MAX 1000010
 
-	cin >> n >> l;
+bool isPrime[MAX];
+int spf[MAX];
 
-	vector<pair<int, int>> arr(n);
+void seive() {
+	fill(isPrime, isPrime + MAX, true);
 
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
-	}
+	for (int i = 1; i < MAX; i++)
+		spf[i] = i;
 
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
+	isPrime[0] = isPrime[1] = false;
 
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
+	for (int i = 2; i * i < MAX; i++) {
+		if (isPrime[i]) {
+			for (int j = i * i; j < MAX; j += i) {
+				if (isPrime[j])
+					spf[j] = i;
+				isPrime[j] = false;
 			}
-
-			ans = max(ans, (int)pq.size());
 		}
 	}
-	cout << ans << endl;
+}
+
+void solve() {
+	int n;
+	cin >> n;
+
+	unordered_map<int, int> mp;
+
+	for (int i = 0; i < n; i++) {
+		int x;
+		cin >> x;
+
+		while (x != 1) {
+			mp[spf[x]]++;
+			x /= spf[x];
+		}
+	}
+
+	for (auto x : mp) {
+		if (x.second % n != 0) {
+			cout << "NO" << endl;
+			return;
+		}
+	}
+	cout << "YES" << endl;
 }
 
 int32_t main() {
@@ -61,7 +75,7 @@ int32_t main() {
 	init();
 	//clock_t time_req;
 	//time_req = clock();
-
+	seive();
 	int t;
 	cin >> t;
 	while (t--)

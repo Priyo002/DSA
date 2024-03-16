@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -22,37 +22,24 @@ void init() {
 }
 
 void solve() {
-	int n, l, ans = 0;
+	int n;
+	cin >> n;
 
-	cin >> n >> l;
-
-	vector<pair<int, int>> arr(n);
-
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
+	if (n & 1) {
+		cout << "NO" << endl;
+		return;
 	}
 
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
+	int k = n / 2;
 
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
-			}
-
-			ans = max(ans, (int)pq.size());
-		}
+	char ch = 'A';
+	string ans = "";
+	while (k--) {
+		ans.push_back(ch);
+		ans.push_back(ch);
+		ch++;
 	}
+	cout << "YES" << endl;
 	cout << ans << endl;
 }
 

@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -22,38 +22,34 @@ void init() {
 }
 
 void solve() {
-	int n, l, ans = 0;
+	int n;
+	cin >> n;
+	vector<int> arr(n), v;
 
-	cin >> n >> l;
+	for (int i = 0; i < n; i++) cin >> arr[i];
 
-	vector<pair<int, int>> arr(n);
-
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
-	}
-
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
-
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
-			}
-
-			ans = max(ans, (int)pq.size());
+	for (int i = 0; i < n - 1; i++) {
+		if (arr[i] != arr[i + 1]) {
+			v.push_back(i);
 		}
 	}
-	cout << ans << endl;
+	int q;
+	cin >> q;
+	while (q--) {
+		int l, r;
+		cin >> l >> r;
+		l--, r--;
+		auto it = lower_bound(v.begin(), v.end(), l);
+		if (it != v.end()) {
+			int idx = *it;
+			if (idx + 1 <= r) {
+				cout << idx + 1 << " " << idx + 2 << endl;
+				continue;
+			}
+		}
+		cout << -1 << " " << -1 << endl;
+	}
+	cout << endl;
 }
 
 int32_t main() {
@@ -64,8 +60,9 @@ int32_t main() {
 
 	int t;
 	cin >> t;
-	while (t--)
+	while (t--) {
 		solve();
+	}
 
 	//time_req = clock() - time_req;
 	//cout << endl << "Time Taken is ";

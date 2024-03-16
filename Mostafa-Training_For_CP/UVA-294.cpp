@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -21,39 +21,37 @@ void init() {
 #endif
 }
 
-void solve() {
-	int n, l, ans = 0;
+int f(int n) {
 
-	cin >> n >> l;
-
-	vector<pair<int, int>> arr(n);
-
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
-	}
-
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
-
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
+	int cnt = 0;
+	for (int i = 1; i * i <= n; i++) {
+		if (n % i == 0) {
+			cnt++;
+			if (n / i != i) {
+				cnt++;
 			}
-
-			ans = max(ans, (int)pq.size());
 		}
 	}
-	cout << ans << endl;
+	return cnt;
+}
+
+void solve() {
+	int l, u;
+	cin >> l >> u;
+
+	int cnt = 0;
+	int ans = INT_MAX;
+	for (int i = l; i <= u; i++) {
+		int k = f(i);
+		if (k > cnt) {
+			ans = i;
+			cnt = k;
+		}
+	}
+
+	cout << "Between " << l << " and " << u << ", ";
+	cout << ans << " has " << "a" << " maximum of " << cnt;
+	cout << " divisors." << endl;
 }
 
 int32_t main() {

@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-//#define sort(X) sort(X.begin(),X.end())
+#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -21,39 +21,42 @@ void init() {
 #endif
 }
 
-void solve() {
-	int n, l, ans = 0;
 
-	cin >> n >> l;
+vector<int> f(int n) {
+	vector<int> temp;
 
-	vector<pair<int, int>> arr(n);
+	for (int i = 1; i * i <= n; i++) {
+		if (n % i == 0) {
+			temp.push_back(i);
 
-	for (int i = 0; i < n; i++) {
-		cin >> arr[i].first >> arr[i].second;
-	}
-
-	sort(arr.begin(), arr.end(), [&](pair<int, int>&a, pair<int, int>&b) {
-		return a.second < b.second;
-	});
-
-	for (int i = 0; i < n; i++) {
-
-		priority_queue<int> pq;
-		int sum = 0;
-
-		for (int j = i; j < n; j++) {
-			pq.push(arr[j].first);
-			sum += arr[j].first;
-
-			while (pq.size() && sum + (arr[j].second - arr[i].second) > l) {
-				sum -= pq.top();
-				pq.pop();
+			if (n / i != i) {
+				temp.push_back(n / i);
 			}
-
-			ans = max(ans, (int)pq.size());
 		}
 	}
-	cout << ans << endl;
+
+	return temp;
+}
+
+void solve() {
+	int a, b, k;
+	cin >> a >> b >> k;
+
+	vector<int> arr;
+	for (int i = a; i <= b; i++) {
+		if (i % k == 0) {
+			arr.push_back(i);
+		}
+	}
+
+	int sum1 = 0, sum2 = 0;
+	for (auto x : arr) {
+		vector<int> temp = f(x);
+		sum1 += (int)(temp.size());
+		sum2 += accumulate(temp.begin(), temp.end(), 0ll);
+	}
+
+	cout << sum1 << " " << sum2 << endl;
 }
 
 int32_t main() {
@@ -61,6 +64,8 @@ int32_t main() {
 	init();
 	//clock_t time_req;
 	//time_req = clock();
+
+
 
 	int t;
 	cin >> t;
