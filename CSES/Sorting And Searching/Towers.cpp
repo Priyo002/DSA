@@ -25,18 +25,23 @@ void solve() {
 	int n;
 	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	vector<int> arr(n);
+
+	for (int i = 0; i < n; i++) cin >> arr[i];
+
+	vector<int> temp;
+	for (auto x : arr) {
+
+		auto it = upper_bound(temp.begin(), temp.end(), x);
+		if (it == temp.end()) {
+			temp.push_back(x);
+		}
+		else {
+			*it = x;
+		}
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cout << temp.size() << endl;
 }
 
 int32_t main() {

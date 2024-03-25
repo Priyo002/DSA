@@ -25,18 +25,22 @@ void solve() {
 	int n;
 	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	string s;
+	cin >> s;
+
+	int cnt = n - 2, flag = 0;
+
+	for (int i = 0; i < n; i++) {
+		if (i + 2 < n && (s[i] == s[i + 1] && s[i + 1] == s[i + 2])) {
+			flag = 1;
+			cnt--;
+		}
+		else if (i + 3 < n && s[i] == s[i + 1] && s[i] == s[i + 3] && s[i + 1] == s[i + 3]) {
+			cnt--;
+		}
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cout << cnt + flag << endl;
 }
 
 int32_t main() {
@@ -45,8 +49,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

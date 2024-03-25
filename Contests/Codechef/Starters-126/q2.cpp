@@ -25,18 +25,28 @@ void solve() {
 	int n;
 	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	vector<int> arr(n);
+
+	for (int i = 0; i < n; i++) cin >> arr[i];
+
+	unordered_map<int, int> mp;
+	int cnt = 0;
+
+	for (auto b : arr) {
+		if (b == 1) continue;
+		if ((3 * b) % (b - 1) != 0) {
+			mp[b]++;
+			continue;
+		}
+
+		int a = (3 * b) / (b - 1);
+		if (mp.find(a) != mp.end()) {
+			cnt += mp[a];
+		}
+		mp[b]++;
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cout << cnt << endl;
 }
 
 int32_t main() {
@@ -45,8 +55,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

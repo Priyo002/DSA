@@ -21,22 +21,46 @@ void init() {
 #endif
 }
 
+vector<int> arr;
+
+int powr(int a, int b) {
+	int res = 1;
+	while (b) {
+		if (b & 1) res *= a;
+		a *= a;
+		b = (b >> 1);
+	}
+	return res;
+}
+
 void solve() {
 	int n;
 	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	auto idx = lower_bound(arr.begin(), arr.end(), n) - arr.begin();
+	if (idx == (int)(arr.size())) {
+		cout << "NO" << endl;
+		return;
+	}
+	if (arr[idx] == n) {
+		cout << "YES" << endl;
+		return;
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
+	for (int i = 0; i < idx; i++) {
+		int k = i + 2;
+		int j = 3;
+		while (true) {
+			int m = (powr(k, j) - 1) / (k - 1);
+			if (m == n) {
+				cout << "YES" << endl;
+				return;
+			}
+			if (m > n) break;
+			j++;
+		}
 	}
-	cout << ans + 1 << endl;
+	cout << "NO" << endl;
 }
 
 int32_t main() {
@@ -45,8 +69,17 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	arr.clear();
+	int k = 2;
+	while (true) {
+		int t = ((k * k * k) - 1) / (k - 1);
+		if (t > 1000000) break;
+		arr.push_back(t);
+		k++;
+	}
+
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

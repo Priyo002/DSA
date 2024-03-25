@@ -21,22 +21,10 @@ void init() {
 #endif
 }
 
+vector<int> arr;
+
 void solve() {
-	int n;
-	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
-	}
-
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
 }
 
 int32_t main() {
@@ -45,10 +33,21 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
-	while (t--)
-		solve();
+	arr.clear();
+	int k = 2;
+	while (true) {
+		int t = ((k * k * k) - 1) / (k - 1);
+		if (t > 100000) break;
+		arr.push_back(t);
+		k++;
+	}
+	for (auto x : arr) {
+		cout << x << " ";
+	}
+	// int t;
+	// cin >> t;
+	// while(t--)
+	// 	solve();
 
 	//time_req = clock() - time_req;
 	//cout << endl << "Time Taken is ";

@@ -6,7 +6,7 @@ using namespace std;
 #define setbits(x) __builtin_popcountll(x)
 #define zerobits(x) __builtin_ctzll(x)
 #define endl '\n'
-#define sort(X) sort(X.begin(),X.end())
+//#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -21,22 +21,46 @@ void init() {
 #endif
 }
 
-void solve() {
-	int n;
-	cin >> n;
+vector<int> height;
+int n, W;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
+
+
+void solve() {
+
+	cin >> n >> W;
+
+	height.clear();
+	height.resize(n);
+
+	multiset<int> mt;
+
+	for (int i = 0; i < n; i++) {
 		int x;
 		cin >> x;
-		pos[x] = i;
+		mt.insert(x);
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
+	int ans = 1;
+	int temp = W;
+
+	while (mt.size()) {
+
+		auto it = mt.upper_bound(temp);
+
+		if (it != mt.begin()) {
+			it--;
+			temp -= *it;
+			mt.erase(it);
+		}
+		else {
+			temp = W;
+			ans++;
+		}
 	}
-	cout << ans + 1 << endl;
+
+	cout << ans << endl;
+
 }
 
 int32_t main() {
@@ -45,8 +69,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

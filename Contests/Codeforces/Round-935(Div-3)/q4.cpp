@@ -22,21 +22,24 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
+	int n, m;
+	cin >> n >> m;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	vector<int> a(n), b(n);
+
+	for (int i = 0; i < n; i++) cin >> a[i];
+	for (int i = 0; i < n; i++) cin >> b[i];
+
+	int ans = INF, sum = 0;
+
+	for (int i = n - 1; i >= 0; i--) {
+		if (i  < m) {
+			ans = min(ans, sum + a[i]);
+		}
+		sum += min(a[i], b[i]);
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cout << ans << endl;
 }
 
 int32_t main() {
@@ -45,8 +48,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

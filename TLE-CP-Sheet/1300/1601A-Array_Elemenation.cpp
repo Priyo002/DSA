@@ -23,20 +23,33 @@ void init() {
 
 void solve() {
 	int n;
-	cin >> n;
+	cin >> n ;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
+	vector<int> arr(31, 0);
+
+	for (int i = 0; i < n; i++) {
 		int x;
 		cin >> x;
-		pos[x] = i;
+
+		for (int i = 0; i < 31; i++) {
+			arr[i] += ((x >> i) & 1);
+		}
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
+	set<int> ans;
+
+	for (int i = 1; i <= n; i++) {
+		bool flag = true;
+		for (int j = 0; j < 31; j++) {
+			if (arr[j] % i != 0) {
+				flag = false;
+				break;
+			}
+		}
+		if (flag) ans.insert(i);
 	}
-	cout << ans + 1 << endl;
+	for (auto x : ans) cout << x << " ";
+	cout  << endl;
 }
 
 int32_t main() {
@@ -45,8 +58,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

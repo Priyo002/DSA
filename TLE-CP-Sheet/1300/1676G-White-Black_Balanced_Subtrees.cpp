@@ -21,22 +21,64 @@ void init() {
 #endif
 }
 
+unordered_map<int, list<int>> graph;
+
+int ans = 0;
+
+string s;
+
+pair<int, int> dfs(int src, vector<bool>& visited) {
+
+	int b = 0, w = 0;
+
+	if (s[src - 1] == 'W') w++;
+	else b++;
+
+	visited[src] = true;
+
+	for (auto node : graph[src]) {
+		if (!visited[node]) {
+			pair<int, int> temp = dfs(node, visited);
+			w += temp.first;
+			b += temp.second;
+		}
+	}
+
+	if (w == b) {
+		ans++;
+	}
+
+	return {w, b};
+
+
+}
+
 void solve() {
 	int n;
 	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	ans = 0;
+	graph.clear();
+
+	int u = 2;
+
+	for (int i = 1; i <= n - 1; i++) {
+		int v;
+		cin >> v;
+
+		graph[u].push_back(v);
+		graph[v].push_back(u);
+		u++;
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cin >> s;
+
+
+	vector<bool> visited(n + 1, false);
+
+	dfs(1, visited);
+
+	cout << ans << endl;
 }
 
 int32_t main() {
@@ -45,8 +87,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

@@ -22,21 +22,27 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
+	int a, b, x1, y1, x2, y2;
+	cin >> a >> b >> x1 >> y1 >> x2 >> y2;
 
-	vector<int> pos(n + 1);
+	int dir[4][2] = {{ -1, -1}, {1, -1}, { -1, 1}, { 1 , 1 }};
+
+	map<pair<int, int>, int> mp1, mp2;
+
+	for (int i = 0; i < 4; i++) {
+		mp1[ {x1 + dir[i][0]*a, y1 + dir[i][1]*b}]++;
+		mp2[ {x2 + dir[i][0]*a, y2 + dir[i][1]*b}]++;
+
+		mp1[ {x1 + dir[i][0]*b, y1 + dir[i][1]*a}]++;
+		mp2[ {x2 + dir[i][0]*b, y2 + dir[i][1]*a}]++;
+	}
 	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	for (auto x : mp1) {
+
+		if (mp2.count(x.first)) ans++;
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cout << ans << endl;
 }
 
 int32_t main() {
@@ -45,8 +51,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

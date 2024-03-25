@@ -22,21 +22,59 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
+	int k, x;
+	cin >> k >> x;
 
-	vector<int> pos(n + 1);
+	int lo = 1, hi = k;
+
 	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	while (lo <= hi) {
+		int mid = (lo + hi) / 2;
+		int t = (mid * (mid + 1) ) / 2;
+
+		if (t <= x) {
+			ans = mid;
+			lo = mid + 1;
+		}
+		else {
+			hi = mid - 1;
+		}
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
+	int temp = (ans) * (ans + 1) / 2;
+
+	if ( temp >= x) {
+		cout << ans << endl;
+		return;
 	}
-	cout << ans + 1 << endl;
+
+	x -= temp;
+
+	int cnt = 1;
+
+	lo = 1, hi = k - 1;
+
+	if (lo > hi) {
+		cout << ans << endl;
+		return;
+	}
+
+	while (lo <= hi) {
+		int mid = (lo + hi) / 2;
+
+		int t = (k * (k - 1)) / 2;
+		t -= (mid * (mid - 1)) / 2;
+
+		if (t < x) {
+			hi = mid - 1;
+		}
+		else {
+			cnt = mid;
+			lo = mid + 1;
+		}
+	}
+
+	cout << ans + ((k - 1) - cnt + 1) << endl;
 }
 
 int32_t main() {
@@ -45,8 +83,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

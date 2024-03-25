@@ -21,22 +21,38 @@ void init() {
 #endif
 }
 
+vector<int> arr;
+
+int f(int i, int j) {
+	int ans = 0;
+
+	int k = j;
+	while (i <= j) {
+		int mid = (i + j) / 2;
+		if (arr[mid] >= k - mid + 1) {
+			ans = k - mid + 1;
+			j = mid - 1;
+		}
+		else {
+			i = mid + 1;
+		}
+	}
+	return ans;
+}
+
 void solve() {
+	arr.clear();
+
 	int n;
 	cin >> n;
+	arr.resize(n);
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
-	}
+	for (int i = 0; i < n; i++) cin >> arr[i];
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
+	for (int i = 0; i < n; i++) {
+		cout << f(0, i) << " ";
 	}
-	cout << ans + 1 << endl;
+	cout << endl;
 }
 
 int32_t main() {
@@ -45,8 +61,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

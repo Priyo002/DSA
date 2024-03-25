@@ -22,21 +22,30 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
+	int i, x, u;
+	cin >> i >> x >> u;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	int ans = i;
+
+	int k = x % 3;
+
+	if (k != 0 && (k + u) < 3) {
+		cout << -1 << endl;
+		return;
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	ans += (x / 3);
+
+	int n = (k + u) % 3;
+
+	ans += (k + u) / 3;
+
+	if (n) ans++;
+
+	cout << ans << endl;
+
+
+
 }
 
 int32_t main() {
@@ -45,8 +54,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

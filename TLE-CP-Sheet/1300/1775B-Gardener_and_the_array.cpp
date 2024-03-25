@@ -21,22 +21,42 @@ void init() {
 #endif
 }
 
+
 void solve() {
 	int n;
 	cin >> n;
 
-	vector<int> pos(n + 1);
-	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+	unordered_map<int, list<int>> mp;
+
+	unordered_map<int, int> cnt;
+
+
+	for (int i = 0; i < n; i++) {
+		int k;
+		cin >> k;
+		while (k--) {
+			int x;
+			cin >> x;
+			cnt[x]++;
+			mp[i].push_back(x);
+		}
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
+	for (auto& x : mp) {
+		bool flag = true;
+
+		for (auto& k : x.second) {
+			if (cnt[k] == 1) {
+				flag = false;
+				break;
+			}
+		}
+		if (flag) {
+			cout << "YES" << endl;
+			return;
+		}
 	}
-	cout << ans + 1 << endl;
+	cout << "NO" << endl;
 }
 
 int32_t main() {
@@ -45,8 +65,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 

@@ -22,21 +22,42 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
+	int n, k;
+	cin >> n >> k;
 
-	vector<int> pos(n + 1);
+	vector<int> bits(31, 0), arr(n);
+
+	for (auto &i : arr) cin >> i;
+
+	for (auto x : arr) {
+		for (int i = 0; i < 31; i++) {
+			int bit = ((1 << i)&x);
+			bits[i] +=	(bit ? 1 : 0);
+		}
+	}
+
+	for (int i = 30; i >= 0; i--) {
+
+		int zero = n - bits[i];
+
+		if (zero <= k) {
+			k -= zero;
+			bits[i] = 1;
+		}
+		else {
+			bits[i] = 0;
+		}
+	}
+
 	int ans = 0;
-	for (int i = 1; i <= n; i++) {
-		int x;
-		cin >> x;
-		pos[x] = i;
+
+	for (int i = 0; i < 31; i++) {
+		if (bits[i]) {
+			ans += (1 << i);
+		}
 	}
 
-	for (int i = 2; i <= n; i++) {
-		if (pos[i - 1] > pos[i]) ans++;
-	}
-	cout << ans + 1 << endl;
+	cout << ans << endl;
 }
 
 int32_t main() {
@@ -45,8 +66,8 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t = 1;
-	//cin >> t;
+	int t;
+	cin >> t;
 	while (t--)
 		solve();
 
