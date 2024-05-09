@@ -1,12 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+
 #define int long long
-#define pb emplace_back
-#define setbits(x) __builtin_popcountll(x)
-#define zerobits(x) __builtin_ctzll(x)
+#define pb push_back
 #define endl '\n'
-#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -25,23 +27,16 @@ void solve() {
 	int n;
 	cin >> n;
 
-	unordered_map<int, int> mp;
+	int maxi = 0, sum = 0;
+
 	for (int i = 0; i < n; i++) {
 		int x;
 		cin >> x;
-		mp[x] = i + 1;
+		maxi = max(maxi, x);
+		sum += x;
 	}
-	int ans = INT_MIN;
-	for (int i = 1; i <= 1000; i++) {
-		if (mp.count(i) == 0) continue;
-		for (int j = 1; j <= 1000; j++) {
-			if (mp.count(j) == 0) continue;
-			if (__gcd(i, j) == 1) {
-				ans = max(ans, mp[i] + mp[j]);
-			}
-		}
-	}
-	cout << (ans == INT_MIN ? -1 : ans) << endl;
+
+	cout << max(2 * maxi, sum);
 }
 
 int32_t main() {
@@ -50,9 +45,9 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t;
-	cin >> t;
-	while (t--)
+	int _t = 1;
+	//cin >> _t;
+	while (_t--)
 		solve();
 
 	//time_req = clock() - time_req;

@@ -1,12 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+
 #define int long long
-#define pb emplace_back
-#define setbits(x) __builtin_popcountll(x)
-#define zerobits(x) __builtin_ctzll(x)
+#define pb push_back
 #define endl '\n'
-#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -24,29 +26,23 @@ void init() {
 void solve() {
 	int n;
 	cin >> n;
-	vector<int> arr(n);
 
-	int cnt = 0, zero = 0;
-	int sum = 0;
+	vector<pair<int, int>> arr(n);
+
 	for (int i = 0; i < n; i++) {
-		cin >> arr[i];
-		if (arr[i] < 0) {
-			cnt++;
-			arr[i] *= -1;
-		}
-		sum += arr[i];
+		cin >> arr[i].first >> arr[i].second;
 	}
 
-	if (cnt % 2 == 0) {
-		cout << sum;
-	}
-	else {
-		sort(arr);
+	sort(arr.begin(), arr.end());
 
-		cout << sum - 2 * arr[0];
+	int ans = 0;
+	int st = 0;
 
+	for (int i = 0; i < n; i++) {
+		ans += (arr[i].second - (st + arr[i].first));
+		st += arr[i].first;
 	}
-	cout << endl;
+	cout << ans ;
 }
 
 int32_t main() {
@@ -55,9 +51,9 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t;
-	cin >> t;
-	while (t--)
+	int _t = 1;
+	//cin >> _t;
+	while (_t--)
 		solve();
 
 	//time_req = clock() - time_req;

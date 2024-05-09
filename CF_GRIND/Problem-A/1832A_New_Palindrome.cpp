@@ -1,12 +1,14 @@
 #include<bits/stdc++.h>
 using namespace std;
 
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
+
 #define int long long
-#define pb emplace_back
-#define setbits(x) __builtin_popcountll(x)
-#define zerobits(x) __builtin_ctzll(x)
+#define pb push_back
 #define endl '\n'
-#define sort(X) sort(X.begin(),X.end())
 const int mod = 1e9 + 7;
 const long long INF = 1e18;
 
@@ -22,31 +24,19 @@ void init() {
 }
 
 void solve() {
-	int n;
-	cin >> n;
+	string s;
+	cin >> s;
 
-	multiset<int> st;
-	for (int i = 0; i < n; i++) {
-		int x;
-		cin >> x;
-		st.insert(x);
+	int n = s.size();
+
+	set<char> st(s.begin(), s.begin() + n / 2);
+
+	if (st.size() == 1) {
+		cout << "NO" << endl;
 	}
-
-	int ans = 0;
-	while (st.size()) {
-		ans++;
-		auto it = st.begin();
-		int ele = *it;
-		st.erase(it);
-		int nx = ele + 1;
-		while (st.find(nx) != st.end()) {
-			auto k = st.find(nx);
-			st.erase(k);
-			nx++;
-		}
+	else {
+		cout << "YES" << endl;
 	}
-	cout << ans << endl;
-
 }
 
 int32_t main() {
@@ -55,9 +45,9 @@ int32_t main() {
 	//clock_t time_req;
 	//time_req = clock();
 
-	int t;
-	cin >> t;
-	while (t--)
+	int _t = 1;
+	cin >> _t;
+	while (_t--)
 		solve();
 
 	//time_req = clock() - time_req;
