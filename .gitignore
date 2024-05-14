@@ -1,3 +1,6 @@
 *.exe
 *.in
 *.out
+*.DS_Store
+*.bin
+*.cph
