@@ -1,69 +1,105 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
+#define lli long long int
+#define li long int
+#define ld long double
 using namespace std;
+const lli mod = 1e9 + 7;
 
-#define int long long
-#define pb emplace_back
-#define setbits(x) __builtin_popcountll(x)
-#define zerobits(x) __builtin_ctzll(x)
-#define endl '\n'
-#define sort(X) sort(X.begin(),X.end())
-const int mod = 1e9 + 7;
-const long long INF = 1e18;
+const int n = 7;
+bool visited[n][n];
+int reserved[49];
+string path;
 
-void init() {
-	ios::sync_with_stdio(0);
-	cin.tie(0);
-	cout.tie(0);
+void f(int r, int c, int &ans, int &steps){
 
-#ifndef ONLINE_JUDGE
-	freopen("inputf.in", "r", stdin);
-	freopen("outputf.in", "w", stdout);
-#endif
+    //BaseCase
+    if (r == n - 1 && c == 0){
+        ans += (steps == n * n - 1);
+        return;
+    }
+    
+    //Prunning (Optimization)
+    bool f1 = ((c==0 || (visited[r][c+1] && visited[r][c-1])) && (r-1>=0 && r+1<n && !visited[r-1][c] && !visited[r+1][c]));
+    bool f2 = ((r==0 || (visited[r+1][c] && visited[r-1][c])) && (c+1<n && c-1>=0 && !visited[r][c+1] && !visited[r][c-1]));
+    bool f3 = ((c==n-1 || (visited[r][c+1] && visited[r][c-1])) && (r+1<n && r-1>=0 && !visited[r+1][c] && !visited[r-1][c]));
+    bool f4 = ((r==n-1 || (visited[r+1][c] && visited[r-1][c])) && (c-1>=0 && c+1<n && !visited[r][c+1] && !visited[r][c-1]));
+
+    if(f1 || f2 || f3 || f4) return;
+
+
+    //Check & Move
+    visited[r][c] = true;
+
+    if (path[steps]!='?'){
+        char ch = path[steps];
+        if(ch=='U'){
+            if(r-1>=0 && !visited[r-1][c]){
+                steps++;
+                f(r-1,c,ans,steps);
+                steps--;
+            }
+        }
+        else if(ch=='R'){
+            if(c+1<n && !visited[r][c+1]){
+                steps++;
+                f(r,c+1,ans,steps);
+                steps--;
+            }
+        }
+        else if(ch=='D'){
+            if(r+1<n && !visited[r+1][c]){
+                steps++;
+                f(r+1,c,ans,steps);
+                steps--;
+            }
+        }
+        else{
+            if(c-1>=0 && !visited[r][c-1]){
+                steps++;
+                f(r,c-1,ans,steps);
+                steps--;
+            }
+        }
+    }
+    else{
+        if(r-1>=0 && !visited[r-1][c]){
+            steps++;
+            f(r-1,c,ans,steps);
+            steps--;
+        }
+        if(c+1<n && !visited[r][c+1]){
+            steps++;
+            f(r,c+1,ans,steps);
+            steps--;
+        }
+        if(r+1<n && !visited[r+1][c]){
+            steps++;
+            f(r+1,c,ans,steps);
+            steps--;
+        }
+        if(c-1>=0 && !visited[r][c-1]){
+            steps++;
+            f(r,c-1,ans,steps);
+            steps--;
+        }
+    }
+
+    visited[r][c] = false;
+    
+
 }
 
-int dir[4][2] = {{0, 1}, {0, -1}, {1, 0}, { -1, 0}};
-int f(int i, int j, int x, int y) {
-	if (i < 0 || j < 0 || i >= 7 || j >= 7) return 0;
-	//if (dp[i][j] != -1) return dp[i][j];
-	if (i == x && j == y) return 1;
-	int ans = 0;
-	for (int d = 0; d < 4; d++) {
-		int k1 = i + dir[d][0];
-		int k2 = j + dir[d][1];
-		ans += f(k1, k2, x, y);
-	}
-	return ans;
-}
+int main(){
 
-void solve() {
-	//memset(dp, -1, sizeof(dp));
-	// vector<vector<char>> arr(7,vector<char>(7));
-	// for(int i=0;i<7;i++){
-	// 	for(int j=0;j<7;j++){
-	// 		cin >> arr[i][j];
-	// 	}
-	// }
-	// int ans = 0;
-	// for(int i=0;i<7;i++){
-	// 	for(int j=0;j<7;j++){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
 
-	// 	}
-	// }
-	cout << f(0, 0, 6, 6);
+    cin >> path;
+    
+    int ans = 0, steps = 0;
+    f(0, 0, ans, steps);
 
-}
-
-int32_t main() {
-
-	init();
-	//clock_t time_req;
-	//time_req = clock();
-
-
-	solve();
-
-	//time_req = clock() - time_req;
-	//cout << endl << "Time Taken is ";
-	//cout << (float)time_req / CLOCKS_PER_SEC << " Seconds" << endl;
-
+    cout << ans;
+    
+    return 0;
 }
