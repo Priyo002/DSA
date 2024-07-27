@@ -26,7 +26,10 @@ void init(){
 
 vector<bool> isPrime;
 vector<int> spf;
+bool kk = false;
 void sieve(int N){
+    if(kk) return;
+    kk = true;
     isPrime.clear();
     isPrime.resize(N+1,true); 
     spf.clear();
@@ -46,12 +49,13 @@ void sieve(int N){
     }
 }
 
-vector<int> getPrimeFactors(int n){
-    vector<int> temp;
-    while(spf[n]!=1){
-        temp.push_back(spf[n]);
+set<int> getPrimeFactors(int n){
+    set<int> temp;
+    while(n!=1){
+        temp.insert(spf[n]);
         n /= spf[n];
     }
+    return temp;
 }
 
 
@@ -62,25 +66,38 @@ void solve(){
     long double k = a/b;
     string s = to_string(k);
 
-    bool f = true;
+    set<int> st = getPrimeFactors(b);
+
+    bool f = st.count(3) || st.count(5);
 
     if(s.find('.')!=string::npos){
+        string str = "";
         bool flag = false;
-        int idx = -1;
         for(int i=0;i<s.size();i++){
-            if(s[i]=='.'){
-                flag = true;
+            if(flag){
+                str += s[i];
             }
-            if(flag && s[i]==(char)('0'+c)){
-                idx = i;
-                break;
-            }
+            if(s[i]=='.') flag = true;
         }
-        if(idx!=-1 && (f || idx!=s.size()-1)){
 
+        for(int i=0;i<str.size();i++){
+            if(str[i]==(char)(c+'0')){
+                if(f && i==str.size()-1){
+                    if(str[i]==(char)((c+1)+'0')) cout << i+1 << endl;
+                    else cout << -1 << endl;
+                    return;
+                }
+                else{
+                    cout << i+1 << endl;
+                    return;
+                }
+            }
         }
+        cout << -1 << endl;
     }
-    cout << s << endl;
+    else{
+        cout << -1 << endl;
+    }
 }
 
 int32_t main(){

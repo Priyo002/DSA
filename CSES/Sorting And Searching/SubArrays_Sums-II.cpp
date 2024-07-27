@@ -33,7 +33,7 @@ void solve() {
 		pref.pb(sum);
 	}
 	int ans = 0;
-	unordered_map<int, int> m;
+	map<int, int> m;
 	m[0]++;
 	for (int i = 0; i < n; i++) {
 		int target = pref[i] - k;

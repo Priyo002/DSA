@@ -23,6 +23,55 @@ void init(){
     //#endif
 }
 
+struct Union_Find{
+    int sz,cc;
+    vector<int> par,rank;
+    void init(int n){
+        sz = n;
+        cc = n;
+        par.clear();
+        rank.clear();
+        par.resize(n+1);
+        rank.resize(n+1,1);
+        for(int i=0;i<=sz;i++){
+            par[i] = i;
+        }
+    }
+    int findParent(int x){
+        if(x==par[x]) return x;
+        else return par[x] = findParent(par[x]);
+    }
+    void addEdge(int x,int y){
+        int parX = findParent(x);
+        int parY = findParent(y);
+        if(parX==parY) return;
+        if(rank[parX]>=rank[parY]){
+            rank[parX] += rank[parY];
+            par[parY] = parX;
+        }
+        else{
+            rank[parY] += rank[parX];
+            par[parX] = parY;
+        }
+        cc--;
+    }
+    int getCC(){
+        return cc;
+    }
+    void reset(){
+        cc = sz;
+        for(int i=0;i<=sz;i++){
+            par[i] = i;
+            rank[i] = 1;
+        }
+    }
+    void print(){
+        for(int i=0;i<=sz;i++){
+            cout << i << "-> " << par[i] << " ";
+        }
+    }
+};
+
 void solve(){
     string s;
     cin >> s;
