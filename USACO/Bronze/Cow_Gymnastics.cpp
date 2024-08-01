@@ -21,6 +21,8 @@ void init() {
 #endif
 }
 
+
+
 void solve() {
 	int k, n;
 	cin >> k >> n;
