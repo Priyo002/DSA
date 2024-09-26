@@ -18,106 +18,82 @@ void init(){
     cout.tie(0);
 }
 
-//BG, BR, BY, GR, GY, or RY = {n+1,n+2,n+3,n+4,n+5}
-
-vector<list<pair<int,int>>> graph;
-map<string,int> mp;
-map<int,vector<int>> D;
-int n,q;
-
-void dijkstra(int src){
-
-    vector<int> dist(n+100,1e18);
-
-    priority_queue<pair<int,int>> pq;
-
-    vector<int> visited(n+100,0);
-    pq.push({0,src});
-    dist[src] = 0;
-
-    while(pq.size()){
-        auto curr = pq.top();
-        pq.pop();
-
-        int currNode = curr.second, cost = -curr.first;
-
-        if(visited[currNode]) continue;
-        visited[currNode] = 1;
-
-        for(auto &neigh : graph[currNode]){
-            if(dist[neigh.first] > neigh.second + cost){
-                dist[neigh.first] = neigh.second + cost;
-                pq.push({-dist[neigh.first],neigh.first});
-            }
-        }
-    }
-
-    D[src] = dist;
-}
-
-
-
 void solve(){
-    
+    int n,q;
     cin >> n >> q;
 
-    graph.clear();
-    graph.resize(n+100,list<pair<int,int>>());
-
-    mp.clear();
-
-    mp["BG"] = n+1;
-    mp["BR"] = n+2;
-    mp["BY"] = n+3;
-    mp["GR"] = n+4;
-    mp["GY"] = n+5;
-    mp["RY"] = n+6;
-
-    map<char,vector<int>> mpp;
+    unordered_map<string,int> pp;
+    pp["BG"] = 1;
+    pp["RY"] = 2;
+    pp["BR"] = 3;
+    pp["GY"] = 4;
+    pp["BY"] = 5;
+    pp["GR"] = 6;
 
     vector<string> arr(n);
+    vector<vector<int>> mp(7,vector<int>());
+
     for(int i=0;i<n;i++){
         cin >> arr[i];
-
-        graph[mp[arr[i]]].push_back({i,0});
-
-        char ch1 = arr[i][0], ch2 = arr[i][1];
-        mpp[ch1].push_back(i);
-        mpp[ch2].push_back(i);
+        mp[pp[arr[i]]].push_back(i);
     }
-
-    for(auto &x : mpp){
-        vector<int> temp = x.second;
-        int k = temp.size();
-        for(int i=0;i<k-1;i++){
-            int u = temp[i], v = temp[i+1];
-            graph[u].push_back({v,v-u});
-            graph[v].push_back({u,v-u});
-        }
+    for(int i=1;i<7;i++){
+        sort(mp[i].begin(),mp[i].end());
     }
+    // BG, BR, BY, GR, GY, or RY;
+    unordered_map<string,string> mpp;
+    mpp["BG"] = "RY";
+    mpp["RY"] = "BG";
+    mpp["BR"] = "GY";
+    mpp["GY"] = "BR";
+    mpp["BY"] = "GR";
+    mpp["GR"] = "BY";
 
-    D.clear();
-
-    for(auto &x : mp){
-        dijkstra(x.second);
-    }
-
+    vector<string> temp = {"BG","BR","BY","GR","GY","RY"};
+    
     while(q--){
         int u,v;
         cin >> u >> v;
-
         u--,v--;
 
-        vector<int> temp = D[mp[arr[u]]];
-        vector<int> t2 = D[mp[arr[v]]];
-        int d = t2[u];
-        int ans = max(d,temp[v]);
-        if(arr[u]==arr[v]) ans = abs(v-u);
-        if(ans==1e18) cout << -1;
-        else cout << ans;
-        cout << endl;
-    }
+        string st = arr[u], en = arr[v];
+        if(st[0]==en[0] || st[0]==en[1] || st[1]==en[0] || st[1]==en[1]){
+            cout << abs(u-v) << endl;
+        }
+        else{
+            int ans = 1e18;
+            string str = mpp[st];
+            int l = min(u,v), r = max(u,v);
 
+            for(auto &s : temp){
+                if(s==str || s==st) continue;
+                if(mp[pp[s]].size()==0) continue;
+
+                vector<int> &temp = mp[pp[s]];
+
+                auto it = upper_bound(temp.begin(),temp.end(),l);
+
+                if(it!=temp.end() && (*it)<=r){
+                    ans = r-l;
+                    break;
+                }
+                if(it!=temp.begin()){
+                    it--;
+                    int idx = *it;
+                    ans = min(ans,abs(idx-l) + abs(idx-r));
+                }
+
+                auto it1 = upper_bound(temp.begin(),temp.end(),r);
+                if(it1!=temp.end()){
+                    int idx = *it1;
+                    ans = min(ans,abs(idx-l) + abs(idx-r));
+                }
+            }
+           
+            if(ans==1e18) ans = -1;
+            cout << ans << endl;
+        }
+    }
 }
 
 int32_t main(){
