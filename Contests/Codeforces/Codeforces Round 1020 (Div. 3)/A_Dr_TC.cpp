@@ -22,34 +22,32 @@ void solve(){
     int n;
     cin >> n;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+    string s;
+    cin >> s;
+
+    int cntOne = 0;
+    int ans = 0;
+    for(auto &ch : s){
+        cntOne += (ch == '1');
     }
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
+    for(int i=0;i<n;i++){
+        if(s[i] == '1'){
+            ans += (cntOne - 1);
         }
         else{
-            ans.push_back(arr[i]);
+            ans += (cntOne + 1);
         }
     }
 
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans << endl;
 }
 
 int32_t main(){
     
     init();
     int _t = 1;
-    //cin >> _t;
+    cin >> _t;
     while(_t--)
         solve();
 

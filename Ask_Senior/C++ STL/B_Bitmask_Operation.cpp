@@ -6,7 +6,7 @@ using namespace std;
 using namespace __gnu_pbds; 
 #define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update>
 
-#define int long long
+//#define int long long
 #define pb push_back
 #define endl '\n'
 const int mod = 1e9+7;
@@ -19,29 +19,29 @@ void init(){
 }
 
 void solve(){
-    int n;
-    cin >> n;
+    int q,n;
+    cin >> q >> n;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
-    }
+    while(q--){
+        int ch,x;
+        cin >> ch >> x;
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
+        if(ch == 1){
+            cout << ((n>>x)&1LL) << endl;
+        }
+        else if(ch == 2){
+            n |= (1LL<<x);
+            cout << n << endl;
+        }
+        else if(ch == 3){
+            n |= (1LL<<x);
+            n ^= (1LL<<x);
+            cout << n << endl;
         }
         else{
-            ans.push_back(arr[i]);
+            n ^= (1LL<<x);
+            cout << n << endl;
         }
-    }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
     }
 }
 

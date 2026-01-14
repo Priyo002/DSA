@@ -22,34 +22,27 @@ void solve(){
     int n;
     cin >> n;
 
-    vector<pair<int,int>> arr(n);
+    map<int,int> freq;
     for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+        int x;
+        cin >> x;
+        freq[x]++;
     }
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
-        }
-        else{
-            ans.push_back(arr[i]);
+    int ans = 0;
+    for(auto &x : freq){
+        if(x.second >= 2){
+            ans += ((x.second*(x.second - 1))/2) * (n - x.second);
         }
     }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans;
 }
 
 int32_t main(){
     
     init();
     int _t = 1;
-    //cin >> _t;
+    // cin >> _t;
     while(_t--)
         solve();
 

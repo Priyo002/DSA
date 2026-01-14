@@ -19,29 +19,28 @@ void init(){
 }
 
 void solve(){
-    int n;
-    cin >> n;
+    int q;
+    cin >> q;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
-    }
+    queue<int> qu;
+    while(q--){
+        string s;
+        cin >> s;
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
+        if(s == "push"){
+            int x;
+            cin >> x;
+            qu.push(x);
+        }
+        else if(s == "front"){
+            cout << qu.front() << endl;
+        }
+        else if(s == "back"){
+            cout << qu.back() << endl;
         }
         else{
-            ans.push_back(arr[i]);
+            qu.pop();
         }
-    }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
     }
 }
 

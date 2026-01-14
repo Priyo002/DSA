@@ -18,38 +18,45 @@ void init(){
     cout.tie(0);
 }
 
+int n,k;
+int dp[2001][2001];
+
+int f(int curr,int len){
+
+    if(len == k) return 1;
+
+    if(dp[curr][len]!=-1) return dp[curr][len];
+
+    int temp = curr;
+    int ans = 0;
+    while(temp<=n){
+        ans += f(temp,len + 1);
+        ans %= mod;
+        temp += curr;
+    }
+
+    return dp[curr][len] = ans;
+}
+
 void solve(){
-    int n;
-    cin >> n;
+    cin >> n >> k;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+    memset(dp, -1, sizeof(dp));
+
+    int ans = 0;
+    for(int i=1;i<=n;i++){
+        ans += f(i,1);
+        ans %= mod;
     }
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
-        }
-        else{
-            ans.push_back(arr[i]);
-        }
-    }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans;
 }
 
 int32_t main(){
     
     init();
     int _t = 1;
-    //cin >> _t;
+    // cin >> _t;
     while(_t--)
         solve();
 

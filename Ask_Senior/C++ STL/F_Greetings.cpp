@@ -29,27 +29,21 @@ void solve(){
 
     sort(arr.begin(),arr.end());
 
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
-        }
-        else{
-            ans.push_back(arr[i]);
-        }
+    ordered_set st;
+    int ans = 0;
+    for(int i=0;i<n;i++){
+        int cnt = (int)st.size() - st.order_of_key(arr[i].second);
+        ans += cnt;
+        st.insert(arr[i].second);
     }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans << endl;
 }
 
 int32_t main(){
     
     init();
     int _t = 1;
-    //cin >> _t;
+    cin >> _t;
     while(_t--)
         solve();
 

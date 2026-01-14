@@ -22,27 +22,30 @@ void solve(){
     int n;
     cin >> n;
 
-    vector<pair<int,int>> arr(n);
+    vector<int> arr(n);
+    multiset<int> mt;
+    int totalSum = 0;
+
     for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+        cin >> arr[i];
+        mt.insert(arr[i]);
+        totalSum += arr[i];
     }
 
-    sort(arr.begin(),arr.end());
+    vector<int> ans;
 
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
-        }
-        else{
-            ans.push_back(arr[i]);
-        }
+    for(int i=0;i<n;i++){
+        int val = arr[i];
+        mt.erase(mt.find(val));
+        int leftOver = totalSum - val;
+        int mx = *mt.rbegin();
+        
+        if(mx*2 == leftOver) ans.push_back(i+1);
+        mt.insert(val);
     }
 
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans.size() << endl;
+    for(int &x : ans) cout << x << " ";
 }
 
 int32_t main(){

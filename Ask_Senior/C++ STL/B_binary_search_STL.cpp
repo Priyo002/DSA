@@ -19,29 +19,34 @@ void init(){
 }
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,q;
+    cin >> n >> q;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
-    }
+    vector<int> arr(n);
+    for(int &x : arr) cin >> x;
 
     sort(arr.begin(),arr.end());
 
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
+    while(q--){
+        string s;
+        cin >> s;
+        int x;
+        cin >> x;
+        if(s == "binary_search"){
+            if(binary_search(arr.begin(),arr.end(),x)) cout << "found";
+            else cout << "not found";
+        }
+        else if(s == "lower_bound"){
+            auto it = lower_bound(arr.begin(),arr.end(),x);
+            if(it == arr.end()) cout << -1;
+            else cout << *it;
         }
         else{
-            ans.push_back(arr[i]);
+            auto it = upper_bound(arr.begin(),arr.end(),x);
+            if(it == arr.end()) cout << -1;
+            else cout << *it;
         }
-    }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
+        cout << endl;
     }
 }
 

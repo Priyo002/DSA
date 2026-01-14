@@ -21,28 +21,27 @@ void init(){
 void solve(){
     int n;
     cin >> n;
+    string s;
+    cin >> s;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+    map<string,int> mp;
+
+    for(int i=0;i<n-1;i++){
+        string temp = "";
+        temp += s[i];
+        temp += s[i+1];
+        mp[temp]++;
     }
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
+    int f = 0;
+    string ans;
+    for(auto &x : mp){
+        if(x.second > f){
+            ans = x.first;
+            f = x.second;
         }
-        else{
-            ans.push_back(arr[i]);
-        }
     }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans;
 }
 
 int32_t main(){

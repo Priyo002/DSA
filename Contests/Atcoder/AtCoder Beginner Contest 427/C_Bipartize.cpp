@@ -19,37 +19,33 @@ void init(){
 }
 
 void solve(){
-    int n;
-    cin >> n;
+    int n,m;
+    cin >> n >> m;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+    vector<pair<int,int>> edges(m);
+    for(int i=0;i<m;i++){
+        cin >> edges[i].first >> edges[i].second;
     }
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
+    int ans = 1e9;
+    for(int col=0;col<(1LL<<n);col++){
+        int cnt = 0;
+        for(auto &edge : edges){
+            int u = edge.first, v = edge.second;
+            if(((col>>u) & 1) == ((col>>v) & 1)) { // same color
+                cnt++;
+            }
         }
-        else{
-            ans.push_back(arr[i]);
-        }
+        ans = min(ans, cnt);
     }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << ans;
 }
 
 int32_t main(){
     
     init();
     int _t = 1;
-    //cin >> _t;
+    // cin >> _t;
     while(_t--)
         solve();
 

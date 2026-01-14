@@ -22,34 +22,46 @@ void solve(){
     int n;
     cin >> n;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
-    }
+    vector<int> arr(2*n + 1,0);
 
-    sort(arr.begin(),arr.end());
+    vector<vector<int>> brr(n+1,vector<int>(n+1));
 
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
-        }
-        else{
-            ans.push_back(arr[i]);
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            cin >> brr[i][j];
         }
     }
 
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
+    for(int i=1;i<=n;i++){
+        for(int j=1;j<=n;j++){
+            arr[i+j] = brr[i][j];
+        }
     }
+
+    set<int> st(arr.begin(),arr.end());
+    vector<int> ans;
+    for(int i=1;i<=2*n;i++){
+        if(!st.count(i)){
+            ans.push_back(i);
+        }
+    }
+
+    for(int i=1;i<=2*n;i++){
+        if(arr[i] == 0){
+            arr[i] = ans.back();
+            ans.pop_back();
+        }
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
 }
 
 int32_t main(){
     
     init();
     int _t = 1;
-    //cin >> _t;
+    cin >> _t;
     while(_t--)
         solve();
 

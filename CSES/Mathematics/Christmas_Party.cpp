@@ -22,27 +22,14 @@ void solve(){
     int n;
     cin >> n;
 
-    vector<pair<int,int>> arr(n);
-    for(int i=0;i<n;i++){
-        cin >> arr[i].first >> arr[i].second;
+    vector<int> der(n+1);
+    
+    der[1] = 0, der[2] = 1;
+    for (int i = 3; i <= n; i++) {
+        der[i] = ((i - 1) * (der[i - 1] + der[i - 2])) % mod;
     }
 
-    sort(arr.begin(),arr.end());
-
-    vector<pair<int,int>> ans = {arr[0]};
-
-    for(int i=1;i<n;i++){
-        if(arr[i].first <= ans.back().second){
-            ans.back().second = max(ans.back().second,arr[i].second);
-        }
-        else{
-            ans.push_back(arr[i]);
-        }
-    }
-
-    for(auto &x : ans){
-        cout << x.first << " " << x.second << endl;
-    }
+    cout << der[n] << endl;
 }
 
 int32_t main(){
