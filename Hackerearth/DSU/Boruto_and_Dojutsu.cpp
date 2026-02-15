@@ -96,8 +96,9 @@ void solve(){
         }
     }
 
-    for(int i=(int)ans.size()-1;i>=0;i--) 
+    for(int i=(int)ans.size()-1;i>=0;i--){
         cout << ans[i] << endl;
+    }
 }
 
 int32_t main(){
